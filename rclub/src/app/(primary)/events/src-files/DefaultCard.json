@@ -1,0 +1,16 @@
+{
+  "array_elem": [
+    {
+      "id"                : 1                                 ,
+      "title_main"        : "Your day your way"               ,
+      "title_description" : "Your checklist for better sleep" ,
+      "image_alt"         : "Relaxing app background"         ,
+      "image_background"  : "./images/card-example-5.jpeg"    ,
+      "icon_alt"          : "Breathing app icon"              ,
+      "icon_img"          : "./images/breathing-app-icon.jpeg",
+      "bottom_title"      : "Breathing App"                   ,
+      "bottom_description": "Get a good night's sleep."       ,
+      "button_reserve"    : "Reserve"
+    }
+  ]
+}
