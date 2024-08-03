@@ -2,7 +2,7 @@ import {redirect} from 'next/navigation'
 import {revalidatePath} from 'next/cache'
 import {promises as fs} from 'fs';
 import path from 'path';
-import {ICard, IScene, IPerson, ITicket, IReservation} from '@/app/types/types'
+import {ICard, IPerson, ITicket, IReservation} from '@/app/types/types'
 
 const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
 
