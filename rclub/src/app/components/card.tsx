@@ -1,12 +1,21 @@
-import React from "react";
+'use client'
+import React from 'react';
 import {Card, CardHeader, CardFooter, Image} from "@nextui-org/react";
 import {ICard} from '@/app/types/types'
 import ReserveModal from "@/app/components/reservemodal";
+import CardIconColumn from "@/app/components/cardIconColumn";
+import {useSession} from '@/app/hooks/useSession';
 
-export default function App({dataProp, reserveButton}: { dataProp: ICard, reserveButton: Boolean }) {
+export default function CardComponent({dataProp, reserveButton, renderAdminColumn}: {
+    dataProp: ICard,
+    reserveButton: Boolean,
+    renderAdminColumn: Boolean
+}) {
+    const session = useSession();
     return (
         <div className="max-w-[900px] gap-2 grid grid-cols-6 grid-rows-1">
-            <Card isFooterBlurred className="w-full h-[300px] col-span-6 sm:col-span-6">
+            <Card isFooterBlurred
+                  className={`w-full h-[300px] ${session && renderAdminColumn ? "col-span-5 sm:col-span-5" : "col-span-6 sm:col-span-6"}`}>
                 <CardHeader className="absolute z-10 top-1 flex-1 items-start p-2">
                     <div className="flex flex-col w-9/12 float-left">
                         <p className="text-tiny text-white/60 uppercase font-bold">{dataProp.title_main}</p>
@@ -50,6 +59,10 @@ export default function App({dataProp, reserveButton}: { dataProp: ICard, reserv
                     }
                 </CardFooter>
             </Card>
+            {/* Column for icons and booked items */}
+            {session && renderAdminColumn &&
+                <CardIconColumn bookedCount={dataProp.id}/>
+            }
         </div>
     );
 }

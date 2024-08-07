@@ -34,7 +34,7 @@ export default async function Page() {
 
         const listItems = ao.map((aox: ICard) => (
             <div className="my-8 relative ..." key={aox.id}>
-                <Card key={aox.id} dataProp={aox} reserveButton={true}/>
+                <Card key={aox.id} dataProp={aox} reserveButton={true} renderAdminColumn={true}/>
                 {modal && aox.id === Number(addedLast) && <AddedModal/>}
             </div>
         ));
@@ -50,7 +50,7 @@ export default async function Page() {
     } else {
         return (
             <div>
-                <Card dataProp={dataProp} reserveButton={true}/>
+                <Card dataProp={dataProp} reserveButton={true} renderAdminColumn={false}/>
             </div>
         );
     }

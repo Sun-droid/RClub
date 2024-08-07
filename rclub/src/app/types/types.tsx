@@ -36,6 +36,7 @@ export interface ICard {
     bottom_title: string
     bottom_description: string
     button_reserve: string
+    booked_count?: number
 }
 
 export interface IScene {
@@ -49,6 +50,13 @@ export interface IProps {
     dataProp: ICard | undefined
     fn?: (dataProp: ICard) => void;
 }
+
+export type Props = {
+    session?: any;
+    dataProp: ICard;
+    reserveButton?: boolean;
+    renderAdminColumn?: boolean;
+  };
 
 export interface ITooltip {
     content: string;
@@ -107,3 +115,17 @@ export interface IReservation {
     cancelled?: boolean
     refundable?: boolean
 }
+
+export interface Booking {
+    id?: number;
+    event_id?: number;
+    date?: string;
+    name?: string;
+    email?: string;
+}
+
+// This will hold the count of booked items
+export interface IBookedCount {
+    bookedCount: number;
+}
+

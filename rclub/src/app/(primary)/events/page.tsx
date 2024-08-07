@@ -24,12 +24,16 @@ export default async function EventsScreen() {
                 {!session &&
                     <h1>Hello, Tickets Page right!</h1>
                 }
-                <div>
-                    <h1>Events editor</h1>
-                </div>
-                <div>
-                    <AddModal/>
-                </div>
+                {session &&
+                    <>
+                        <div>
+                            <h1>Events editor</h1>
+                        </div>
+                        <div>
+                            <AddModal/>
+                        </div>
+                    </>
+                }
                 <EventsListLayout/>
             </div>
         </div>

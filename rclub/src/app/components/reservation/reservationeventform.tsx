@@ -11,12 +11,13 @@ import {ButtonSubmit} from '@/app/ui/button';
 import {ButtonFill} from './buttonfill';
 import {useFormState} from 'react-dom';
 import {addToDataFile} from '@/app/(primary)/events/reserve/actions';
-import { useState } from 'react';
+import {useState} from 'react';
 import Tooltip from "@/app/components/tooltip";
 import useTimeout from "@/app/components/useTimeout";
 import React from "react";
-import { IProps } from '@/app/types/types';
-import { useSearchParams } from 'next/navigation'
+import {IProps} from '@/app/types/types';
+import {useSearchParams} from 'next/navigation'
+//import CardReserve from '@/app/components/cardreserve'
 import Card from '@/app/components/card'
 
 export default function ReserveEventForm({dataProp}: { dataProp: IProps }) {
@@ -32,7 +33,6 @@ export default function ReserveEventForm({dataProp}: { dataProp: IProps }) {
     const [val02, setVal02] = useState<undefined | string | number>('');
     const [val03, setVal03] = useState<undefined | number | string>(0);
     const AidFill = ["Alice Blackheart", "thisisalice@mail.com", "533294-223"]
-
     let cn = 0
     const autoFillAid = () => {
         if (!autoFill) {
@@ -85,7 +85,8 @@ export default function ReserveEventForm({dataProp}: { dataProp: IProps }) {
                         </div>
                         <div className="sceneButtonInForm">
                             <div className="flex flex-col min-h-fit mx-auto max-w-2xl px-0 pt-0 pb-0">
-                                <Card dataProp={itemGetObj} reserveButton={false}/>
+                                {/*<CardReserve dataProp={itemGetObj}/>*/}
+                                <Card dataProp={itemGetObj} reserveButton={false} renderAdminColumn={false}/>
                             </div>
                         </div>
                     </div>

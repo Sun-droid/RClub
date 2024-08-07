@@ -197,6 +197,20 @@
             "bottom_title": "Price here?",
             "bottom_description": "More on price",
             "button_reserve": "Reserve"
+        },
+        {
+            "id": 20240803155805,
+            "title_main": "Friday Corner",
+            "title_description": "Event description...",
+            "scene_id": "Rokrock",
+            "scene_img": "./images/rokrock.png",
+            "image_alt": "Hills and lakes",
+            "image_background": "./images/card-example-5.jpeg",
+            "icon_alt": "Company logo",
+            "icon_img": "./images/breathing-app-icon.jpeg",
+            "bottom_title": "Price here?",
+            "bottom_description": "More on price",
+            "button_reserve": "Reserve"
         }
     ]
 }
