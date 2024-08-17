@@ -13,6 +13,8 @@ export interface IInputGroup {
     hasFullWidth?: boolean;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+    value?: string | undefined
+    checked?: boolean
 }
 
 export interface InputElementProps

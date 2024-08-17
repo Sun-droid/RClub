@@ -19,7 +19,8 @@ async function storeEvent(event: IReservation): Promise<IReservation | undefined
         if (dataVal) {
             if (dataVal.holder.person_name) {
                 objectData.push(dataVal)
-                const updatedData = JSON.stringify(objectData);
+//                const updatedData = JSON.stringify(objectData);
+                const updatedData = JSON.stringify(objectData, null, 2);
                 //            // Write the updated data to the JSON file
                 await fs.writeFile(eventsDataReserve, updatedData);
             }
@@ -157,6 +158,8 @@ export const submitData = async (formData: FormData) => {
 //                    }
 //                }
 //                revalidatePath('/?addmodalform=true')
+
+//Needs review - Potentially causing - WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr' failed: WebSocket is closed due to suspension.
         revalidatePath('/?reservemodalform=')
         redirect(`/events`)
     }

@@ -1,3 +1,7 @@
+//This code have complex operations which needs review.
+//Code organisation and repetition, variable naming and type
+//annotations review and re-strucrue is needed.
+
 import type {User} from '@/app/lib/definitions';
 import {redirect} from 'next/navigation'
 import {revalidatePath} from 'next/cache'
@@ -8,7 +12,7 @@ import {ICard} from '@/app/types/types';
 const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
 const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/EventsData1.json');
 
-async function storeEvent(event: ICard): Promise<ICard | undefined> {
+async function storeEvent(event: ICard, operation: 'create' | 'update'): Promise<ICard | undefined> {
     const fileEvents = await fs.readFile(eventsData1, 'utf8');
     const objectData = JSON.parse(fileEvents);
     let v = ""
@@ -18,9 +22,20 @@ async function storeEvent(event: ICard): Promise<ICard | undefined> {
     try {
         if (dataVal) {
             if (dataVal.title_description) {
-                objectData.array_elem.push(dataVal)
-                const updatedData = JSON.stringify(objectData);
-                await fs.writeFile(eventsData1, updatedData);
+                if (operation === 'update') {
+                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
+
+                    if (index > -1) {
+                        objectData.array_elem[index] = event;
+                    } else {
+                        console.error('Event ID not found for update:', event.id);
+                        return undefined;
+                    }
+                } else {
+                    objectData.array_elem.push(dataVal)
+                }
+                    const updatedData = JSON.stringify(objectData, null, 2);
+                    await fs.writeFile(eventsData1, updatedData);
             }
         } else {
         }
@@ -47,7 +62,9 @@ async function getUser(email: string): Promise<User | undefined> {
 }
 
 let keyVal: number | undefined = 0
-export const submitData = async (formData: FormData) => {
+
+
+const prepareData = (formData: FormData, operation: 'create' | 'update') => {
     //Radio options and object cases
     const imageLabel = formData.get('button-types-image') // 1. Fill in automatically - 2. Fill in automatically - 3. Fill in automatically - 4. null - 5. null - 6. Use default
     const imageField = formData.get('image_background') // 1. https:// - 2. https:// - 3. https:// - 4. string - 5. string - 6. Default
@@ -61,7 +78,8 @@ export const submitData = async (formData: FormData) => {
     const date = new Date()
     const idString = JSON.stringify(date)
     const idMatch = idString.replace(/[^\d\.]*/g, '')
-    const id = parseInt(idMatch)
+    let id = parseInt(idMatch)
+    const updateId = formData.get('object_id')
     const sceneRokrock = 'Rokrock'
     const sceneRokrockImg = './images/rokrock.png'
     const sceneTrenchcoat = 'Trenchcoat'
@@ -69,6 +87,16 @@ export const submitData = async (formData: FormData) => {
     const sceneLangrock = 'Langrock'
     const sceneLangrockImg = './images/langrock.png'
     const sceneId = formData.get('scene_title')
+//    // Extract and format data from formData
+//    const dataMapBuild = new Map<string, any>();
+//    formData.forEach((value, key) => {
+//        // data extraction logic
+//    });
+
+    if (operation === 'update') {
+        id = Number(updateId)
+    } else id = parseInt(idMatch)
+
     let dataMapBuild = new Map<string, string | number>()
     let n = 0
     for (const v of Object(formData.entries())) {
@@ -101,6 +129,22 @@ export const submitData = async (formData: FormData) => {
             dataMapBuild.set(buttonStringKey, buttonStringVal)
         n++
     }
+
+    function createPost() {
+        revalidatePath('/?addmodalform=true')
+        redirect(`/events`)
+    }
+
+    let sv = ''
+    savedAddedValKey(sv)
+    storeEventKey()
+
+    return dataMapBuild;
+};
+
+
+export const submitData = async (formData: FormData, operation: 'create' | 'update') => {
+    const dataMapBuild = prepareData(formData, operation);
     const dt: ICard = {
         id: Number(dataMapBuild.get('id')),
         title_main: String(dataMapBuild.get('title_main')),
@@ -114,20 +158,12 @@ export const submitData = async (formData: FormData) => {
         bottom_title: String(dataMapBuild.get('bottom_title')),
         bottom_description: String(dataMapBuild.get('bottom_description')),
         button_reserve: String(dataMapBuild.get('button_reserve')),
-    }
-    const wv = await storeEvent(dt).then(r => {
+    }; // ICard instance
+    const wv = await storeEvent(dt, operation).then(r => {
         return keyVal = r?.id; /*return v = r?.id*/
     })
-
-    function createPost() {
-        revalidatePath('/?addmodalform=true')
-        redirect(`/events`)
-    }
-
-    let sv = ''
-    savedAddedValKey(sv)
-    storeEventKey()
-}
+//    await storeEvent(dt); // Store the event data
+};
 
 export async function fetchAddedValKey(dataVal: string) {
     const response = await keyVal;

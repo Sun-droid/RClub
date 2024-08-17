@@ -12,6 +12,9 @@ export default function CardComponent({dataProp, reserveButton, renderAdminColum
     renderAdminColumn: Boolean
 }) {
     const session = useSession();
+//    if (session === null) {
+//        return <div>Loading...</div>;
+//    }
     return (
         <div className="max-w-[900px] gap-2 grid grid-cols-6 grid-rows-1">
             <Card isFooterBlurred
@@ -61,7 +64,7 @@ export default function CardComponent({dataProp, reserveButton, renderAdminColum
             </Card>
             {/* Column for icons and booked items */}
             {session && renderAdminColumn &&
-                <CardIconColumn bookedCount={dataProp.id}/>
+                <CardIconColumn cardObj={dataProp}/>
             }
         </div>
     );

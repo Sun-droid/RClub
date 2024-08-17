@@ -9,7 +9,8 @@ export default function AddedModal() {
         setTimeout(() => {
             setOpacity(false);
             setColor(nextColor);
-        }, 3000)
+//        }, 3000)
+        }, 500)
     return (
         <div className={`card--primary bg-white modal-layout flex items-center justify-center ${opacity ? 'show' : 'hidden'}`}><p>Just added</p></div>
     )

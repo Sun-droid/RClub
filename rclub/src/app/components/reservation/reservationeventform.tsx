@@ -166,8 +166,14 @@ export default function ReserveEventForm({dataProp}: { dataProp: IProps }) {
                         onChange={e => (e.target.value)}
                     />
                 </div>
-                <ButtonSubmit/>
-                <div
+                {/*<ButtonSubmit/>*/}
+
+                <div className="w-full sm:w-auto">
+                    <ButtonSubmit disabled={errorMessage !== null} styleButton="fill"
+                                  icon={<ExclamationCircleIcon className="h-5 w-5 text-white"/>}>
+                        {"Reserve"}
+                    </ButtonSubmit>
+                </div>                <div
                     className="flex h-8 items-end space-x-1"
                     aria-live="polite"
                     aria-atomic="true"

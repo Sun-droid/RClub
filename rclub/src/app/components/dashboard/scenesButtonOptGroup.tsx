@@ -1,17 +1,22 @@
 import {Dispatch, SetStateAction, useRef} from 'react';
-import React from "react";
-import {useState} from 'react';
+import React, {useState, useEffect} from "react";
+//import {useState} from 'react';
 import {ButtonProps} from '@/app/types/types';
 import {ButtonScene} from '@/app/components/dashboard/buttons';
 
 const ScenesButtonOptGroup: React.FunctionComponent<{
     data: ButtonProps[],
-    ckSceneId: Dispatch<SetStateAction<number | undefined>>
+    ckSceneId: Dispatch<SetStateAction<number | undefined>>, sceneSelectionVal: Number | null
 }> = ({
-          data: scenesOpt, ckSceneId: setSceneValSelected
+          data: scenesOpt, ckSceneId: setSceneValSelected, sceneSelectionVal: sceneSelectionVal
       }) => {
-    const [activeIdx, setActiveIdx] = useState(0)
+    const [activeIdx, setActiveIdx] = useState(sceneSelectionVal)
     const [sceneChosen, setSceneChosen] = useState(false);
+    useEffect(() => {
+        // Update active index if the selected scene value changes externally
+        setActiveIdx(sceneSelectionVal);
+      }, [sceneSelectionVal]);
+
     return (
         <div className="w-full grid grid-cols-3 gap-4 content-evenly ... justify-items-center ... ">
             {scenesOpt.map((inner, index) => (

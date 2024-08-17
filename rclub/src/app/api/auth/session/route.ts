@@ -8,7 +8,6 @@ export async function GET() {
         if (!session) {
             return new Response(null, {status: 401});
         }
-        console.log("GET001 ", session)
         return NextResponse.json(session);
     } catch (error) {
         return NextResponse.json({error: getErrorMessage(error)}, {status: 500});
