@@ -6,9 +6,9 @@ import {Image} from "@nextui-org/react";
 import {ICard} from '@/app/types/types';
 import {lusitana, dancing_script} from '@/app/ui/fonts';
 
-interface ReservationTicketProps {
-    dataProp: ICard | undefined;
-}
+//interface ReservationTicketProps {
+//    dataProp: ICard | undefined;
+//}
 
 interface ReservationTicket {
     id: number;
@@ -93,7 +93,8 @@ const TicketHeader = ({scene_img, scene_id, reservationDate}: {
     </div>
 );
 
-export default function ReservationTicket({dataProp}: ReservationTicketProps) {
+//export default function ReservationTicket({dataProp}: ReservationTicketProps) {
+export default function ReservationTicket() {
     const {itemGetObj, reservationDate} = useReservationData();
     const {fontSize, containerRef} = useResponsiveFontSize(12, 24);
 
