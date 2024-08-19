@@ -2,15 +2,18 @@ import NextAuth from 'next-auth';
 import {authConfig} from './auth.config';
 import {NextResponse} from 'next/server'
 import type {NextRequest} from 'next/server'
+import getServerSession from 'next-auth';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function middleware(request: NextRequest) {
-    const auth = await NextAuth(authConfig).auth(request);
+export default async function middleware(req: NextRequest, res:NextResponse) {
+    const authSecret = process.env.AUTH_SECRET;
+    const session =  getServerSession(authConfig);
     // Allow access to the API
-    const isApiRoute = request.nextUrl.pathname.startsWith('/api/');
+    const isApiRoute = req.nextUrl.pathname.startsWith('/api/');
     if (isApiRoute) {
         return NextResponse.next();
     }
-    const url = request.nextUrl.clone();
+    const url = req.nextUrl.clone();
     const isModalAdd = url.searchParams.get('addmodalform') === 'true';
     const isModalDelete = url.searchParams.get('deletemodal') === 'true';
     const isModalLogin = url.searchParams.get('signmodal') === 'true';
@@ -23,7 +26,7 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.redirect(url)
     }
 
-    return auth;
+    return NextResponse.next();
 }
 
 export const config = {

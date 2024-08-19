@@ -27,7 +27,6 @@ export default async function Page() {
     const itemsTotal = Object.keys(dataByAdmin.array_elem).length
 //    If there are objects and if they can be rendered with property deleted undefined or false
     if (itemsTotal >= 1 && itemsToRender >= 1) {
-        console.log(" Object.keys(dataByAdmin.array_ele in", itemsToRender)
         const ao = dataByAdmin.array_elem;
 
         let v = "";
