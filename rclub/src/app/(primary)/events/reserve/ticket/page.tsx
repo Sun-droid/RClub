@@ -6,7 +6,7 @@ import {IProps} from '@/app/types/types';
 
 
 const pathname = "/events";
-const ReservationDialog = ({ dataProp }: IProps) => (
+const ReservationDialog = ( dataProp : IProps) => (
     <dialog className="fixed flex-col left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center">
       <div className="flex flex-col items-center justify-center w-full h-3/6 space-y-4">
         <div className="flex w-8/12 h-full bg-amber-700 overflow-scroll">
