@@ -154,19 +154,8 @@ const prepareData = (formData: FormData, operation: 'create' | 'update' | 'delet
 
 //Important note at the bottom
 export const submitData = async (formData: FormData, operation: 'create' | 'update' | 'delete') => {
-//        const dataMapBuild = prepareData(formData, operation);
     const dataMapBuildDelete = (operation === 'delete') ? new Map(Object.entries(JSON.parse(Object(formData.getAll('object_id'))))) : undefined
     const dataMapBuild = (operation === 'delete') ? dataMapBuildDelete : prepareData(formData, operation)
-
-//    const dataMapBuild = prepareData(formData, operation)
-//const dataMapBuild = JSON.parse(Object(formData.getAll('object_id')))
-
-
-//    console.log('submitData dataMapBuild', dataMapBuild)
-
-//const dataMapBuild = JSON.parse(Object(formData.getAll('object_id')))
-//console.log("dataMapBuild  parsing", dataMapBuild.image_alt)
-
 
     const dt: ICard = {
         id: Number(dataMapBuild?.get('id')),
@@ -181,10 +170,8 @@ export const submitData = async (formData: FormData, operation: 'create' | 'upda
         bottom_title: String(dataMapBuild?.get('bottom_title')),
         bottom_description: String(dataMapBuild?.get('bottom_description')),
         button_reserve: String(dataMapBuild?.get('button_reserve')),
+        delete: undefined
     }; // ICard instance
-
-    console.log('submitData dt', dt)
-
 
     const wv = await storeEvent(dt, operation).then(r => {
         return keyVal = r?.id; /*return v = r?.id*/
