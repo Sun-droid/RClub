@@ -170,7 +170,7 @@ export const submitData = async (formData: FormData, operation: 'create' | 'upda
         bottom_title: String(dataMapBuild?.get('bottom_title')),
         bottom_description: String(dataMapBuild?.get('bottom_description')),
         button_reserve: String(dataMapBuild?.get('button_reserve')),
-        delete: undefined
+        deleted: undefined
     }; // ICard instance
 
     const wv = await storeEvent(dt, operation).then(r => {
