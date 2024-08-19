@@ -1,7 +1,6 @@
 'use server'
-import {submitData} from './addformvalidate';
+import {savedAddedValKey, submitData} from './addformvalidate';
 import {redirect} from "next/navigation";
-import {savedAddedValKey} from './addformvalidate'
 
 export async function addToDataFile(
     prevState: string | undefined,
@@ -34,8 +33,34 @@ export async function updateDataFile(
         console.log(error)
         return 'Database Error: Failed to update.'
     }
+    //Temporary approach for update
     let v = ''
     let addedLast = await savedAddedValKey(v)
     if (Number(addedLast) !== 0)
         await redirect(`/events/`)
+}
+
+export async function deleteObject(
+    prevState: string | undefined,
+    formData: FormData
+) {
+
+//Insecure delete since the param manipulation posts different data. The entire object comparison may provide better security
+//        await submitDeletion(formData)
+
+
+    try {
+        await submitData(formData, 'delete')
+    } catch (error) {
+        console.log(error)
+        return 'Database Error: Failed to delete.'
+    }
+    //Temporary approach for deletion
+    let v = ''
+    let addedLast = await savedAddedValKey(v)
+    if (Number(addedLast) !== 0)
+        await redirect(`/events/`)
+
+
+    return 'Database Error: Failed to delete.'
 }

@@ -12,7 +12,7 @@ import {ICard} from '@/app/types/types';
 const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
 const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/EventsData1.json');
 
-async function storeEvent(event: ICard, operation: 'create' | 'update'): Promise<ICard | undefined> {
+async function storeEvent(event: ICard, operation: 'create' | 'update' | 'delete'): Promise<ICard | undefined> {
     const fileEvents = await fs.readFile(eventsData1, 'utf8');
     const objectData = JSON.parse(fileEvents);
     let v = ""
@@ -31,11 +31,21 @@ async function storeEvent(event: ICard, operation: 'create' | 'update'): Promise
                         console.error('Event ID not found for update:', event.id);
                         return undefined;
                     }
+                } else if (operation === 'delete') {
+                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
+
+                    if (index > -1) {
+                        objectData.array_elem[index].deleted = true
+                    } else {
+                        console.error('Event ID not found for update:', event.id);
+                        return undefined;
+                    }
+
                 } else {
                     objectData.array_elem.push(dataVal)
                 }
-                    const updatedData = JSON.stringify(objectData, null, 2);
-                    await fs.writeFile(eventsData1, updatedData);
+                const updatedData = JSON.stringify(objectData, null, 2);
+                await fs.writeFile(eventsData1, updatedData);
             }
         } else {
         }
@@ -64,7 +74,7 @@ async function getUser(email: string): Promise<User | undefined> {
 let keyVal: number | undefined = 0
 
 
-const prepareData = (formData: FormData, operation: 'create' | 'update') => {
+const prepareData = (formData: FormData, operation: 'create' | 'update' | 'delete') => {
     //Radio options and object cases
     const imageLabel = formData.get('button-types-image') // 1. Fill in automatically - 2. Fill in automatically - 3. Fill in automatically - 4. null - 5. null - 6. Use default
     const imageField = formData.get('image_background') // 1. https:// - 2. https:// - 3. https:// - 4. string - 5. string - 6. Default
@@ -142,28 +152,53 @@ const prepareData = (formData: FormData, operation: 'create' | 'update') => {
     return dataMapBuild;
 };
 
+//Important note at the bottom
+export const submitData = async (formData: FormData, operation: 'create' | 'update' | 'delete') => {
+//        const dataMapBuild = prepareData(formData, operation);
+    const dataMapBuildDelete = (operation === 'delete') ? new Map(Object.entries(JSON.parse(Object(formData.getAll('object_id'))))) : undefined
+    const dataMapBuild = (operation === 'delete') ? dataMapBuildDelete : prepareData(formData, operation)
 
-export const submitData = async (formData: FormData, operation: 'create' | 'update') => {
-    const dataMapBuild = prepareData(formData, operation);
+//    const dataMapBuild = prepareData(formData, operation)
+//const dataMapBuild = JSON.parse(Object(formData.getAll('object_id')))
+
+
+//    console.log('submitData dataMapBuild', dataMapBuild)
+
+//const dataMapBuild = JSON.parse(Object(formData.getAll('object_id')))
+//console.log("dataMapBuild  parsing", dataMapBuild.image_alt)
+
+
     const dt: ICard = {
-        id: Number(dataMapBuild.get('id')),
-        title_main: String(dataMapBuild.get('title_main')),
-        title_description: String(dataMapBuild.get('title_description')),
-        scene_id: String(dataMapBuild.get('scene_title')),
-        scene_img: String(dataMapBuild.get('scene_img')),
-        image_alt: String(dataMapBuild.get('image_alt')),
-        image_background: String(dataMapBuild.get('image_background')),
-        icon_alt: String(dataMapBuild.get('icon_alt')),
-        icon_img: String(dataMapBuild.get('icon_img')),
-        bottom_title: String(dataMapBuild.get('bottom_title')),
-        bottom_description: String(dataMapBuild.get('bottom_description')),
-        button_reserve: String(dataMapBuild.get('button_reserve')),
+        id: Number(dataMapBuild?.get('id')),
+        title_main: String(dataMapBuild?.get('title_main')),
+        title_description: String(dataMapBuild?.get('title_description')),
+        scene_id: String(dataMapBuild?.get('scene_title')),
+        scene_img: String(dataMapBuild?.get('scene_img')),
+        image_alt: String(dataMapBuild?.get('image_alt')),
+        image_background: String(dataMapBuild?.get('image_background')),
+        icon_alt: String(dataMapBuild?.get('icon_alt')),
+        icon_img: String(dataMapBuild?.get('icon_img')),
+        bottom_title: String(dataMapBuild?.get('bottom_title')),
+        bottom_description: String(dataMapBuild?.get('bottom_description')),
+        button_reserve: String(dataMapBuild?.get('button_reserve')),
     }; // ICard instance
+
+    console.log('submitData dt', dt)
+
+
     const wv = await storeEvent(dt, operation).then(r => {
         return keyVal = r?.id; /*return v = r?.id*/
     })
+
 //    await storeEvent(dt); // Store the event data
 };
+
+
+export const submitDeletion = async (formData: FormData) => {
+
+    console.log("submitDeletion ", formData)
+};
+
 
 export async function fetchAddedValKey(dataVal: string) {
     const response = await keyVal;
@@ -206,3 +241,39 @@ async function storeEventKey() {
         console.error(error);
     }
 }
+
+
+//Minor things to dev
+//For CRUD, see also same info for render in page list file in events/eventlist/page
+
+//  Review
+//  Deleting last will create a default active
+//  If default and then add new, an empty object is kept and causes hinder for its deletion
+
+
+//example:
+//
+//{
+//    "array_elem": [
+//      {},
+//      {
+//        "id": 20240818212313,
+//        "title_main": "Friday Corner",
+//        "title_description": "Event description...",
+//        "scene_id": "Rokrock",
+//        "scene_img": "./images/rokrock.png",
+//        "image_alt": "Hills and lakes",
+//        "image_background": "./images/card-example-5.jpeg",
+//        "icon_alt": "Company logo",
+//        "icon_img": "./images/breathing-app-icon.jpeg",
+//        "bottom_title": "Price here?",
+//        "bottom_description": "More on price",
+//        "button_reserve": "Reserve",
+//        "deleted": true
+//      }
+//    ]
+//  }
+
+
+
+//Empty list or one item list displays only the default. The EventsData1.json starts to be rendered after second 'add new'

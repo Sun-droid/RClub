@@ -11,10 +11,11 @@ function SearchBarFallback() {
     return <>placeholder</>
 }
 
-interface IProps{
-    bookedCount? : IBookedCount,
+interface IProps {
+    bookedCount?: IBookedCount,
     cardObj: ICard
 }
+
 const IconColumn: React.FC<IProps> = ({cardObj}) => {
     return (
         <div className="flex flex-col justify-between w-full h-full bg-gray-800 p-4 pl-0 pr-0">
@@ -36,10 +37,16 @@ const IconColumn: React.FC<IProps> = ({cardObj}) => {
                     </div>
                 </div>
             </div>
-            <button className="text-white text-center">
-                <TrashIcon
-                    className="pointer-events-none h-[28px] w-[28px] text-red-900 peer-focus:text-amber-300 m-auto"/>
-            </button>
+            <div className="flex flex-col items-center gap-4">
+                <Link href={`/?deletemodal=true&${JSON.stringify(cardObj)}`}>
+                    <Suspense fallback={<SearchBarFallback/>}>
+                        <button className="text-white text-center">
+                            <TrashIcon
+                                className="pointer-events-none h-[28px] w-[28px] text-red-900 peer-focus:text-amber-300 m-auto"/>
+                        </button>
+                    </Suspense>
+                </Link>
+            </div>
         </div>
     );
 };

@@ -11,13 +11,14 @@ export const authConfig = {
             const isModal = nextUrl.searchParams.get('addmodalform') === 'true';
             const isModalReserve = nextUrl.searchParams.get('reservemodalform');
             const isModalReservationTicket = nextUrl.searchParams.get('reservationticket');
+            const isModalDelete = nextUrl.searchParams.get('deletemodal');
 
             if (isOnDashboard && isLoggedIn) {
                 if (isLoggedIn) {
                     return true;
                 }
                 return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn && !isModal && !isModalReserve && !isModalReservationTicket /*&& !isReqBookings*/) {
+            } else if (isLoggedIn && !isModal && !isModalReserve && !isModalReservationTicket && !isModalDelete/*&& !isReqBookings*/) {
                 return Response.redirect(new URL('/events', nextUrl));
             }
             return true;

@@ -169,7 +169,7 @@ export default function ReserveEventForm({dataProp}: { dataProp: IProps }) {
                 {/*<ButtonSubmit/>*/}
 
                 <div className="w-full sm:w-auto">
-                    <ButtonSubmit disabled={errorMessage !== null} styleButton="fill"
+                    <ButtonSubmit disabled={errorMessage !== null} styleButton="fill bg-amber-900"
                                   icon={<ExclamationCircleIcon className="h-5 w-5 text-white"/>}>
                         {"Reserve"}
                     </ButtonSubmit>

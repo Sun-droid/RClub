@@ -12,12 +12,13 @@ export default async function middleware(request: NextRequest) {
     }
     const url = request.nextUrl.clone();
     const isModalAdd = url.searchParams.get('addmodalform') === 'true';
+    const isModalDelete = url.searchParams.get('deletemodal') === 'true';
     const isModalLogin = url.searchParams.get('signmodal') === 'true';
     const isModalReserve = url.searchParams.get('reservemodalform');
     const isModalReservationTicket = url.searchParams.get('reservationticket');
 
     // Handle redirection for root path when not a modal
-    if (url.pathname === '/' && !isModalAdd && !isModalLogin && !isModalReserve && !isModalReservationTicket /*&& !isReqBookings*/) {
+    if (url.pathname === '/' && !isModalAdd && !isModalLogin && !isModalReserve && !isModalReservationTicket && !isModalDelete /*&& !isReqBookings*/) {
         url.pathname = '/events'
         return NextResponse.redirect(url)
     }

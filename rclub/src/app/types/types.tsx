@@ -24,6 +24,7 @@ export const posts: Posts [] = [
 
 // ICard is an event/concert model. This is also used as model for other components - Reserve, Ticket print ... 
 export interface ICard {
+    delete: any;
     id: number
     title_main: string
     title_description: string
@@ -37,6 +38,7 @@ export interface ICard {
     bottom_description: string
     button_reserve: string
     booked_count?: number
+    deleted?: boolean
 }
 
 export interface IScene {
@@ -56,7 +58,7 @@ export type Props = {
     dataProp: ICard;
     reserveButton?: boolean;
     renderAdminColumn?: boolean;
-  };
+};
 
 export interface ITooltip {
     content: string;
