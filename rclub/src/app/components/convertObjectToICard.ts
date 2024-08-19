@@ -14,7 +14,7 @@ export default function convertObjectToICard(obj: any): ICard {
         bottom_title: obj.bottom_title,
         bottom_description: obj.bottom_description,
         button_reserve: obj.button_reserve,
-        delete: undefined
+        deleted: undefined
     };
     // If needed to convert booked_count from any to number
     if (obj.booked_count !== undefined) {

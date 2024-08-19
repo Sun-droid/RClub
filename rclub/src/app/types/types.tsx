@@ -37,9 +37,9 @@ export interface ICard {
     bottom_title: string
     bottom_description: string
     button_reserve: string
+    booked_count?: number
     deleted?: boolean
 }
-//    booked_count?: number
 
 export interface IScene {
     id: number
