@@ -13,7 +13,8 @@ export default function Main() {
                 <AddEventPage/>
                 <DeleteEventPage/>
                 <ReserveEventPage dataProp={undefined}/>
-                <ReservationTicketPage dataProp={undefined}/>
+                {/*<ReservationTicketPage dataProp={undefined}/>*/}
+                <ReservationTicketPage/>
             </div>
         </main>
     );
