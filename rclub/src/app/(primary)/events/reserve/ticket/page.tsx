@@ -34,7 +34,8 @@ const ReservationDialog = () => (
 );
 
 //export default function ReservationTicketPage({dataProp}: IProps) {
-export default function ReservationTicketPage(dataProp: ICard) {
+//export default function ReservationTicketPage(dataProp: ICard) {
+export default function ReservationTicketPage() {
     const searchParams = useSearchParams();
     const reservedModalTicket = searchParams.get("reservationticket");
 
