@@ -69,7 +69,8 @@ export default function DeleteCard({dataProp}: DeleteProps) {
                             <div className="flex-box w-full h-full border-8 ticketborder">
                                 {itemGetObj &&
                                     <div>
-                                        <Card dataProp={itemGetObj} reserveButton={false} renderAdminColumn={false}/>
+                                        <Card dataProp={itemGetObj} reserveButton={false} renderAdminColumn={false}
+                                              session={null}/>
                                     </div>
                                 }
                             </div>

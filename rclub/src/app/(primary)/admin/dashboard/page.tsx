@@ -7,7 +7,7 @@ export default async function Page() {
     const dataProp = data.array_elem[0]
     return (
         <div>
-            <Card dataProp={dataProp} reserveButton={true} renderAdminColumn={false}/>
+            <Card dataProp={dataProp} reserveButton={true} renderAdminColumn={false} session={null}/>
         </div>
     );
 }

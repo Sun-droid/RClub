@@ -1,20 +1,18 @@
 'use client'
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardHeader, CardFooter, Image} from "@nextui-org/react";
 import {ICard} from '@/app/types/types'
 import ReserveModal from "@/app/components/reservemodal";
 import CardIconColumn from "@/app/components/cardIconColumn";
 import {useSession} from '@/app/hooks/useSession';
+import {Session} from 'next-auth';
 
-export default function CardComponent({dataProp, reserveButton, renderAdminColumn}: {
+export default function CardComponent({dataProp, reserveButton, renderAdminColumn, session}: {
     dataProp: ICard,
     reserveButton: Boolean,
     renderAdminColumn: Boolean
+    session: Session | null
 }) {
-    const session = useSession();
-//    if (session === null) {
-//        return <div>Loading...</div>;
-//    }
     return (
         <div className="max-w-[900px] gap-2 grid grid-cols-6 grid-rows-1">
             <Card isFooterBlurred

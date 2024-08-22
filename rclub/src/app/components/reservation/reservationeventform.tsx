@@ -86,7 +86,7 @@ export default function ReserveEventForm({dataProp}: { dataProp: IProps }) {
                         <div className="sceneButtonInForm">
                             <div className="flex flex-col min-h-fit mx-auto max-w-2xl px-0 pt-0 pb-0">
                                 {/*<CardReserve dataProp={itemGetObj}/>*/}
-                                <Card dataProp={itemGetObj} reserveButton={false} renderAdminColumn={false}/>
+                                <Card dataProp={itemGetObj} reserveButton={false} renderAdminColumn={false} session={null}/>
                             </div>
                         </div>
                     </div>

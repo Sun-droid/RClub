@@ -3,9 +3,13 @@ import Card from "@/app/components/card";
 import AddedModal from "@/app/components/addedmodal";
 import {ICard} from "@/app/types/types";
 import path from "path";
+import {auth} from '@/auth'
 
 let c = 0;
 export default async function Page() {
+    const session = await auth()
+    console.log("session  eventlist", session )
+
     const fileDefault = await fs.readFile(
         process.cwd() + "/src/app/(primary)/events/src-files/DefaultCard.json",
         "utf8"
@@ -37,7 +41,7 @@ export default async function Page() {
         let x = 0
         const listItems = ao.filter((aox: ICard) => aox.deleted !== true).map((aox: ICard) => (
             <div className={`my-8 relative ${x++}`} key={aox.id}>
-                <Card key={aox.id} dataProp={aox} reserveButton={true} renderAdminColumn={true}/>
+                <Card key={aox.id} dataProp={aox} reserveButton={true} renderAdminColumn={true} session={session}/>
                 {modal && aox.id === Number(addedLast) && <AddedModal/>}
             </div>
         ));
@@ -54,7 +58,7 @@ export default async function Page() {
             //Future, add props to Card to unable reservations for Default. Add different information for users when displaying Default
             <div>
                 <div className="bg-amber-500 text-center text-amber-900"><h1> Default Event</h1></div>
-                <Card dataProp={dataProp} reserveButton={true} renderAdminColumn={false}/>
+                <Card dataProp={dataProp} reserveButton={true} renderAdminColumn={false} session={session}/>
             </div>
         );
     }
