@@ -11,12 +11,12 @@ export default async function Page() {
     console.log("session  eventlist", session )
 
     const fileDefault = await fs.readFile(
-        process.cwd() + '/src/app/(primary)/events/srcFiles/DefaultCard.json',
-        'utf8'
+            path.resolve("/src/app/(primary)/events/srcFiles/DefaultCard.json"),
+        "utf8"
     );
     const fileByAdmin = await fs.readFile(
-        process.cwd() + '/src/app/(primary)/database/EventsData1.json',
-        'utf8'
+        path.resolve("/src/app/(primary)/database/EventsData1.json"),
+        "utf8"
     );
     const dataDefault = JSON.parse(fileDefault);
     const dataByAdmin = JSON.parse(fileByAdmin);
