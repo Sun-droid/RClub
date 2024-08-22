@@ -11,7 +11,7 @@ export default async function Page() {
     console.log("session  eventlist", session )
 
     const fileDefault = await fs.readFile(
-        process.cwd() + "/src/app/(primary)/events/src-files/DefaultCard.json",
+        process.cwd() + "/src/app/(primary)/events/srcFiles/DefaultCard.json",
         "utf8"
     );
     const fileByAdmin = await fs.readFile(
