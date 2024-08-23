@@ -7,28 +7,15 @@ export const authConfig = {
     callbacks: {
         authorized({auth, request: {nextUrl}}) {
             const isLoggedIn = !!auth?.user;
-            console.log("isLoggedIn ", isLoggedIn)
             const isOnDashboard = nextUrl.pathname.startsWith('/events');
-            console.log("isOnDashboard ", isOnDashboard)
-            const isModal = nextUrl.searchParams.get('addmodalform') === 'true';
-            const isModalReserve = nextUrl.searchParams.get('reservemodalform');
-            const isModalReservationTicket = nextUrl.searchParams.get('reservationticket');
-            const isModalDelete = nextUrl.searchParams.get('deletemodal');
 
             if (isOnDashboard && isLoggedIn) {
-                console.log("isOnDashboard && isLoggedIn")
-                if (isLoggedIn) {
-                    return true;
-                }
-                return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn && !isModal && !isModalReserve && !isModalReservationTicket && !isModalDelete/*&& !isReqBookings*/) {
-                return Response.redirect(new URL('/events', nextUrl));
+                return isLoggedIn;
             }
             return true;
         },
     },
     providers: [], // Add providers with an empty array for now
-//    secret: process.env.NEXT_PUBLIC_,
     secret: process.env.NEXTAUTH_SECRET,
 } satisfies NextAuthConfig;
 

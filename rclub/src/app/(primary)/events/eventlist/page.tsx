@@ -6,21 +6,17 @@ import AddedModal from "@/app/components/addedmodal";
 import {ICard} from "@/app/types/types";
 import path from "path";
 import {auth} from '@/auth'
-import {existsSync} from 'node:fs';
 
 let c = 0;
 export default async function Page() {
     const session = await auth()
-   
 
     const fileDefault = await fs.readFile(path.join(
-            //            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
             process.cwd(), "/src/app/(primary)/events/srcFiles/DefaultCard.json",
         ), "utf8"
     );
 
     const fileByAdmin = await fs.readFile(path.join(
-//            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
             process.cwd(), "/src/app/(primary)/database/EventsData1.json",
         ), "utf8"
     );
