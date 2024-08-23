@@ -31,7 +31,8 @@ export default async function Page() {
 
 
     const fileByAdmin = await fs.readFile(path.join(
-            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
+//            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
+            process.cwd(), "/src/app/(primary)/database/EventsData1.json",
         ), "utf8"
     );
 

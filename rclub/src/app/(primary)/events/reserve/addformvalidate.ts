@@ -160,8 +160,8 @@ export const submitData = async (formData: FormData) => {
 //                revalidatePath('/?addmodalform=true')
 
 //Needs review - Potentially causing - WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr' failed: WebSocket is closed due to suspension.
-        revalidatePath('/?reservemodalform=')
-        redirect(`/events`)
+//        revalidatePath('/?reservemodalform=')
+//        redirect(`/events`)
     }
 
     let sv = ''
