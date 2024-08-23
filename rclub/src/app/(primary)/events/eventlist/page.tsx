@@ -1,3 +1,4 @@
+//import {promises as fs} from "fs";
 //import fs from "fs";
 import {promises as fs} from "fs";
 import Card from "@/app/components/card";
@@ -9,21 +10,30 @@ import {auth} from '@/auth'
 let c = 0;
 export default async function Page() {
     const session = await auth()
+    console.log("session  eventlist", session)
 
 //    const fileDefault = await fs.readFile(
 //        process.cwd() + "/src/app/(primary)/events/srcFiles/DefaultCard.json",
 //        "utf8"
 //    );
 
+//    const fileByAdmin = await fs.readFile(
+//        process.cwd() + "/src/app/(primary)/database/EventsData1.json",
+//        "utf8"
+//    );
+
+
     const fileDefault = await fs.readFile(path.join(
         process.cwd(), "src", "app", "(primary)", "events", "srcFiles", "DefaultCard.json",
     ), "utf8");
 
 
-    const fileByAdmin = await fs.readFile(
-        process.cwd() + "/src/app/(primary)/database/EventsData1.json",
-        "utf8"
+    const fileByAdmin = await fs.readFile(path.join(
+            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
+        ), "utf8"
     );
+
+
 
 
     const dataDefault = JSON.parse(fileDefault);
