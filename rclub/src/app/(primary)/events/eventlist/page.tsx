@@ -6,6 +6,7 @@ import AddedModal from "@/app/components/addedmodal";
 import {ICard} from "@/app/types/types";
 import path from "path";
 import {auth} from '@/auth'
+import { existsSync } from 'node:fs';
 
 let c = 0;
 export default async function Page() {
@@ -24,7 +25,8 @@ export default async function Page() {
 
 
     const fileDefault = await fs.readFile(path.join(
-        process.cwd(), "src", "app", "(primary)", "events", "srcFiles", "DefaultCard.json",
+//        process.cwd(), "src", "app", "(primary)", "events", "srcFiles", "DefaultCard.json",
+        process.cwd(), "/src/app/(primary)/events/srcFiles/DefaultCard.json",
     ), "utf8");
 
 
@@ -34,7 +36,9 @@ export default async function Page() {
     );
 
 
-
+    if (!existsSync(fileDefault)) {
+        console.error("File does not exist:", fileDefault);
+    } else console.log('existsSync(fileDefault)', existsSync(fileDefault))
 
     const dataDefault = JSON.parse(fileDefault);
     const dataByAdmin = JSON.parse(fileByAdmin);
