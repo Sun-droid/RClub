@@ -5,9 +5,14 @@ import {z} from 'zod';
 import type {User} from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
 import {promises as fs} from 'fs';
+import path from 'path';
 
 async function getUser(email: string): Promise<User | undefined> {
-    const fileUserJson = await fs.readFile(process.cwd() + '/src/app/lib/data/users.json', 'utf8');
+//    const fileUserJson = await fs.readFile(process.cwd() + '/src/app/lib/data/users.json', 'utf8');
+    const fileUserJsonPath = path.join(process.cwd(), '/src/app/lib/data/users.json');
+    const fileUserJson = await fs.readFile(fileUserJsonPath, 'utf8')
+
+
     const dataUserJson = JSON.parse(fileUserJson)
     const dataProp = dataUserJson.array_elem[0]
     const userPasswordData: string = dataProp.password
