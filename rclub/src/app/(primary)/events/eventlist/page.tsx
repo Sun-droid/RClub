@@ -11,10 +11,11 @@ import {existsSync} from 'node:fs';
 let c = 0;
 export default async function Page() {
     const session = await auth()
+   
 
     const fileDefault = await fs.readFile(path.join(
             //            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
-            process.cwd(), "/src/app/(primary)/database/DefaultCard.json",
+            process.cwd(), "/src/app/(primary)/events/srcFiles/DefaultCard.json",
         ), "utf8"
     );
 
@@ -23,6 +24,7 @@ export default async function Page() {
             process.cwd(), "/src/app/(primary)/database/EventsData1.json",
         ), "utf8"
     );
+
 
     const dataDefault = JSON.parse(fileDefault);
     const dataByAdmin = JSON.parse(fileByAdmin);
