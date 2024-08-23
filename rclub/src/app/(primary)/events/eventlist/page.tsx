@@ -11,66 +11,18 @@ import {existsSync} from 'node:fs';
 let c = 0;
 export default async function Page() {
     const session = await auth()
-    console.log("session  eventlist", session)
 
-//    const fileDefault = await fs.readFile(
-//        process.cwd() + "/src/app/(primary)/events/srcFiles/DefaultCard.json",
-//        "utf8"
-//    );
-
-//    const fileByAdmin = await fs.readFile(
-//        process.cwd() + "/src/app/(primary)/database/EventsData1.json",
-//        "utf8"
-//    );
-
-
-//    const fileDefault = await fs.readFile(path.join(
-//        process.cwd(), "src", "app", "(primary)", "events", "srcFiles", "DefaultCard.json",
-////        process.cwd(), "/src/app/(primary)/events/srcFiles/DefaultCard.json",
-//    ), "utf8");
-
-    const filePathDefault = path.join(process.cwd(), 'src', 'app', '(primary)', 'events', 'srcFiles', 'DefaultCard.json');
-    const fileDefault = await fs.readFile(filePathDefault, "utf8");
-    console.log('File exists fileDefault', fileDefault);
+    const fileDefault = await fs.readFile(path.join(
+            //            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
+            process.cwd(), "/src/app/(primary)/database/DefaultCard.json",
+        ), "utf8"
+    );
 
     const fileByAdmin = await fs.readFile(path.join(
 //            process.cwd(), "src", "app", "(primary)", "database", "EventsData1.json",
             process.cwd(), "/src/app/(primary)/database/EventsData1.json",
         ), "utf8"
     );
-
-
-    if (!existsSync(fileDefault)) {
-        console.error("File does not exist:", fileDefault);
-    } else console.log('existsSync(fileDefault)')
-
-
-    const filePath = path.join(process.cwd(), 'src', 'app', '(primary)', 'events', 'srcFiles', 'DefaultCard.json');
-
-    async function readFile() {
-        try {
-            const fileContents = await fs.readFile(filePath, 'utf8');
-            console.log('File contents:', fileContents);
-            // Perform operations with the file contents
-        } catch (error) {
-            console.error('Error reading file:', error);
-        }
-    }
-
-    readFile();
-
-
-    async function checkFileExists() {
-        try {
-            await fs.access(fileDefault);
-            console.log('File exists');
-        } catch (error) {
-            console.error('File does not exist:', error);
-        }
-    }
-
-    checkFileExists();
-
 
     const dataDefault = JSON.parse(fileDefault);
     const dataByAdmin = JSON.parse(fileByAdmin);
