@@ -11,15 +11,15 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
         return new Response("Internal Server Error", {status: 500});
     }
 
-const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-    secureCookie: process.env.NEXTAUTH_SECRET === "production",
-    salt:
-      process.env.NEXTAUTH_SECRET === "production"
-        ? "__Secure-authjs.session-token"
-        : "authjs.session-token",
-  });
+    const token = await getToken({
+        req,
+        secret: process.env.NEXTAUTH_SECRET,
+        secureCookie: process.env.NEXTAUTH_SECRET === "production",
+        salt:
+            process.env.NEXTAUTH_SECRET === "production"
+                ? "__Secure-authjs.session-token"
+                : "authjs.session-token",
+    });
 
     const authSecret = process.env.NEXT_PUBLIC_;
     const session = getServerSession(authConfig);
@@ -45,12 +45,16 @@ const token = await getToken({
 //    adminLog(req, res)
     // Handle redirection for root path when not a modal
     if (url.pathname === '/') {
-        if (token && !isModalAdd && !isModalReserve && !isModalReservationTicket && !isModalDelete) {
-            url.pathname = '/events'
-            return NextResponse.redirect(url)
-        } else if (!token && !isModalLogin) {
-            url.pathname = '/events'
-            return NextResponse.redirect(url)
+        if (token) {
+            if (!isModalAdd && !isModalReserve && !isModalReservationTicket && !isModalDelete) {
+                url.pathname = '/events'
+                return NextResponse.redirect(url)
+            }
+        } else {
+            if (!isModalLogin) {
+                url.pathname = '/events'
+                return NextResponse.redirect(url)
+            }
         }
     }
 
