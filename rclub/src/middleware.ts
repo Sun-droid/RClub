@@ -28,8 +28,8 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     requestHeaders.set("X-User-Session", "UserSessionData");
 
 
-    console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET);
-    console.log(" token ", token)
+//    console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET);
+//    console.log(" token ", token)
 
     // Allow access to the API
     const isApiRoute = req.nextUrl.pathname.startsWith('/api/');
@@ -44,40 +44,41 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
         url.searchParams.has('reservemodalform') ||
         url.searchParams.has('reservationticket');
 
+    const isAdminModal = url.searchParams.has('addmodalform') ||
+        url.searchParams.has('deletemodal');
+
+    const isSignModal = url.searchParams.has('signmodal');
+
     // Always redirect to /events unless it's a modal
     if (url.pathname === '/' && !isModal) {
         url.pathname = '/events';
         return NextResponse.redirect(url);
     }
 
-    // Allow access to modals on the root path
+
+// Allow access to modals on the root path
     if (url.pathname === '/' && isModal) {
+        // Check for admin modals
+        if (isAdminModal && !token) {
+            // Redirect to login if trying to access admin modal without being logged in
+//            url.pathname = '/?signmodal=true';
+//            url.search = '';
+            url.pathname = '/';
+            url.searchParams.set('signmodal', 'true');
+            return NextResponse.redirect(url);
+        }
+
+//        This is working
+//        if (token && url.search == '?signmodal=true') {
+        if (token && isSignModal) {
+            url.pathname = '/events';
+            url.search = '';
+            return NextResponse.redirect(url);
+        }
+
         return NextResponse.next();
     }
 
-
-//    const isModalAdd = url.searchParams.get('addmodalform') === 'true';
-//    const isModalDelete = url.searchParams.get('deletemodal') === 'true';
-//    const isModalLogin = url.searchParams.get('signmodal') === 'true';
-//    const isModalReserve = url.searchParams.get('reservemodalform');
-//    const isModalReservationTicket = url.searchParams.get('reservationticket');
-////    adminLog(req, res)
-//    // Handle redirection for root path when not a modal
-//    if (url.pathname === '/') {
-//        if (token) {
-//            if (!isModalAdd && !isModalReserve && !isModalReservationTicket && !isModalDelete) {
-//                url.pathname = '/events'
-//                return NextResponse.redirect(url)
-//            }
-//        } else {
-//            if (!isModalLogin && !isModalReserve && !isModalReservationTicket) {
-//                url.pathname = '/events'
-//                return NextResponse.redirect(url)
-//            }
-//        }
-//    }
-
-//    return NextResponse.next({request: {headers: requestHeaders}});
     return NextResponse.next();
 }
 

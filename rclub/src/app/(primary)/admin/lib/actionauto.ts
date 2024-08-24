@@ -4,8 +4,20 @@ import path from 'path';
 import 'server-only'
 
 let otherDatadataVal: string
-const dataFilePath = path.join(process.cwd(), '/src/app/(primary)/admin/lib/Data2.json');
-const localDataFilePaths = path.join(process.cwd(), '/src/app/(primary)/admin/lib/Data1.json');
+//const dataFilePath = path.join(process.cwd(), '/src/app/(primary)/admin/lib/Data2.json');
+//const localDataFilePaths = path.join(process.cwd(), '/src/app/(primary)/admin/lib/Data1.json');
+
+
+//const dataFilePath = await fs.readFile(path.join(
+//        process.cwd(), '/src/app/(primary)/admin/lib/Data2.json',
+//    ), 'utf8'
+//);
+//
+//const localDataFilePaths = await fs.readFile(path.join(
+//        process.cwd(), '/src/app/(primary)/admin/lib/Data1.json',
+//    ), 'utf8'
+//);
+
 
 export async function fetchImagePaths(dataVal: string) {
     const response = await fetch('https://picsum.photos/200');
@@ -15,7 +27,11 @@ export async function fetchImagePaths(dataVal: string) {
 
 //Images are being saved for future dev and decreased API requests
 export async function saveImagePaths(sv: string) {
-    const jsonData = await fs.readFile(dataFilePath, 'utf8');
+//    const jsonData = await fs.readFile(dataFilePath, 'utf8');
+    const jsonData = await fs.readFile(path.join(
+            process.cwd(), '/src/app/(primary)/admin/lib/Data2.json',
+        ), 'utf8'
+    );
     const objectData = JSON.parse(jsonData);
     let v = ""
     let dataVal = ""
@@ -34,7 +50,11 @@ export async function saveImagePaths(sv: string) {
 
 
 export async function localSavedImagePaths(sv: string) {
-    const jsonData = await fs.readFile(localDataFilePaths, 'utf8');
+//    const jsonData = await fs.readFile(localDataFilePaths, 'utf8');
+    const jsonData = await fs.readFile(path.join(
+            process.cwd(), '/src/app/(primary)/admin/lib/Data1.json',
+        ), 'utf8'
+    );
     const objectData = JSON.parse(jsonData);
     let v = ""
     let dataVal = ""

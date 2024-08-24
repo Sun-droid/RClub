@@ -14,6 +14,15 @@ export async function GET() {
     }
 }
 
+//import NextAuth from 'next-auth';
+//import { authConfig } from '@/auth.config';
+//
+//const handler = NextAuth(authConfig);
+//
+//export { handler as GET, handler as POST };
+
+
+
 function getErrorMessage(error: unknown) {
     if (error instanceof Error) return error.message;
     return String(error);
