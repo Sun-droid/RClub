@@ -51,7 +51,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
                 return NextResponse.redirect(url)
             }
         } else {
-            if (!isModalLogin) {
+            if (!isModalLogin && !isModalReserve && !isModalReservationTicket) {
                 url.pathname = '/events'
                 return NextResponse.redirect(url)
             }
