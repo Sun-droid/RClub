@@ -37,28 +37,48 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
         return NextResponse.next();
     }
     const url = req.nextUrl.clone();
-    const isModalAdd = url.searchParams.get('addmodalform') === 'true';
-    const isModalDelete = url.searchParams.get('deletemodal') === 'true';
-    const isModalLogin = url.searchParams.get('signmodal') === 'true';
-    const isModalReserve = url.searchParams.get('reservemodalform');
-    const isModalReservationTicket = url.searchParams.get('reservationticket');
-//    adminLog(req, res)
-    // Handle redirection for root path when not a modal
-    if (url.pathname === '/') {
-        if (token) {
-            if (!isModalAdd && !isModalReserve && !isModalReservationTicket && !isModalDelete) {
-                url.pathname = '/events'
-                return NextResponse.redirect(url)
-            }
-        } else {
-            if (!isModalLogin && !isModalReserve && !isModalReservationTicket) {
-                url.pathname = '/events'
-                return NextResponse.redirect(url)
-            }
-        }
+
+    const isModal = url.searchParams.has('addmodalform') ||
+        url.searchParams.has('deletemodal') ||
+        url.searchParams.has('signmodal') ||
+        url.searchParams.has('reservemodalform') ||
+        url.searchParams.has('reservationticket');
+
+    // Always redirect to /events unless it's a modal
+    if (url.pathname === '/' && !isModal) {
+        url.pathname = '/events';
+        return NextResponse.redirect(url);
     }
 
-    return NextResponse.next({request: {headers: requestHeaders}});
+    // Allow access to modals on the root path
+    if (url.pathname === '/' && isModal) {
+        return NextResponse.next();
+    }
+
+
+//    const isModalAdd = url.searchParams.get('addmodalform') === 'true';
+//    const isModalDelete = url.searchParams.get('deletemodal') === 'true';
+//    const isModalLogin = url.searchParams.get('signmodal') === 'true';
+//    const isModalReserve = url.searchParams.get('reservemodalform');
+//    const isModalReservationTicket = url.searchParams.get('reservationticket');
+////    adminLog(req, res)
+//    // Handle redirection for root path when not a modal
+//    if (url.pathname === '/') {
+//        if (token) {
+//            if (!isModalAdd && !isModalReserve && !isModalReservationTicket && !isModalDelete) {
+//                url.pathname = '/events'
+//                return NextResponse.redirect(url)
+//            }
+//        } else {
+//            if (!isModalLogin && !isModalReserve && !isModalReservationTicket) {
+//                url.pathname = '/events'
+//                return NextResponse.redirect(url)
+//            }
+//        }
+//    }
+
+//    return NextResponse.next({request: {headers: requestHeaders}});
+    return NextResponse.next();
 }
 
 export const config = {
