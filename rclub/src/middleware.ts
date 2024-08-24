@@ -14,9 +14,9 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
-        secureCookie: process.env.NEXTAUTH_SECRET === "production",
+        secureCookie: process.env.NODE_ENV === "production",
         salt:
-            process.env.NEXTAUTH_SECRET === "production"
+            process.env.NODE_ENV === "production"
                 ? "__Secure-authjs.session-token"
                 : "authjs.session-token",
     });
@@ -80,9 +80,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 
         return NextResponse.next();
     }
-//    https://... .app/?addmodalform=true&signmodal=true
-//    https://... .app/?deletemodal=true&% ...&signmodal=true
-//    https://... .app/?addmodalform=true&%7...&signmodal=true
+    
     return NextResponse.next();
 }
 
