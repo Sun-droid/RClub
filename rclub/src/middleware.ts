@@ -80,7 +80,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 
         return NextResponse.next();
     }
-    
+
     return NextResponse.next();
 }
 
