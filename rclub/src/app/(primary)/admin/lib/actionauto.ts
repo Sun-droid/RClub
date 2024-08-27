@@ -2,6 +2,7 @@
 import {promises as fs} from 'fs';
 import path from 'path';
 import 'server-only'
+import {kv} from '@vercel/kv';
 
 let otherDatadataVal: string
 //const dataFilePath = path.join(process.cwd(), '/src/app/(primary)/admin/lib/Data2.json');
@@ -28,10 +29,13 @@ export async function fetchImagePaths(dataVal: string) {
 //Images are being saved for future dev and decreased API requests
 export async function saveImagePaths(sv: string) {
 //    const jsonData = await fs.readFile(dataFilePath, 'utf8');
+
     const jsonData = await fs.readFile(path.join(
             process.cwd(), '/src/app/(primary)/admin/lib/Data2.json',
         ), 'utf8'
     );
+
+
     const objectData = JSON.parse(jsonData);
     let v = ""
     let dataVal = ""
@@ -39,15 +43,16 @@ export async function saveImagePaths(sv: string) {
     sv = dataVal
     try {
         if (dataVal.length > 0) {
+            await kv.set('imagePaths', dataVal)
+//            sv= await kv.get('imagePaths') // needs to get one item only
         } else {
-            console.log();
+            console.log('No image paths found');
         }
     } catch (error) {
         console.error(error);
     }
-    return sv
+    return dataVal
 }
-
 
 export async function localSavedImagePaths(sv: string) {
 //    const jsonData = await fs.readFile(localDataFilePaths, 'utf8');
@@ -56,9 +61,16 @@ export async function localSavedImagePaths(sv: string) {
         ), 'utf8'
     );
     const objectData = JSON.parse(jsonData);
+    //Loading the base data
+    await kv.set('imagePaths', objectData);
+    const imagePaths = await kv.get<string[]>('imagePaths') || [];
+
+
     let v = ""
     let dataVal = ""
-    dataVal = objectData[Math.floor(Math.random() * objectData.length)]
+//    dataVal = objectData[Math.floor(Math.random() * objectData.length)]
+    dataVal = imagePaths[Math.floor(Math.random() * imagePaths.length)]
+    console.log("imagePaths local dataVal", dataVal )
     sv = dataVal
     try {
         if (dataVal.length > 0) {

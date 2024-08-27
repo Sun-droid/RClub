@@ -8,6 +8,7 @@ import {revalidatePath} from 'next/cache'
 import {promises as fs} from 'fs';
 import path from 'path';
 import {ICard} from '@/app/types/types';
+import {kv} from '@vercel/kv';
 
 const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
 const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/EventsData1.json');
@@ -15,44 +16,63 @@ const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/Events
 async function storeEvent(event: ICard, operation: 'create' | 'update' | 'delete'): Promise<ICard | undefined> {
     const fileEvents = await fs.readFile(eventsData1, 'utf8');
     const objectData = JSON.parse(fileEvents);
+    let events = await kv.get<ICard[]>('events') || [];
     let v = ""
     let dataVal = event
     const ts = 'ad'
     const ts1 = ''
+    console.log(" In", event)
     try {
-        if (dataVal) {
-            if (dataVal.title_description) {
+        if (dataVal) { // just to check that there is value to save
+            if (dataVal.title_description) { // doouble check value to save
                 if (operation === 'update') {
-                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
-
+//                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
+                    const index = events.findIndex((item: ICard) => item.id === event.id);
+console.log(" In up", )
                     if (index > -1) {
-                        objectData.array_elem[index] = event;
+//                        objectData.array_elem[index] = event;
+console.log(" In idx", )
+                        events[index] = event;
                     } else {
                         console.error('Event ID not found for update:', event.id);
                         return undefined;
                     }
                 } else if (operation === 'delete') {
-                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
-
+//                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
+                    const index = events.findIndex((item: ICard) => item.id === event.id);
+console.log(" In del", )
                     if (index > -1) {
-                        objectData.array_elem[index].deleted = true
+//                        objectData.array_elem[index].deleted = true
+                        events[index].deleted = true
                     } else {
                         console.error('Event ID not found for update:', event.id);
                         return undefined;
                     }
 
                 } else {
-                    objectData.array_elem.push(dataVal)
+//                    objectData.array_elem.push(dataVal)
+console.log(" In create", )
+console.log(" In create even len", events.length)
+console.log(" In create even events", events)
+                    events.push(event)
                 }
-                const updatedData = JSON.stringify(objectData, null, 2);
-                await fs.writeFile(eventsData1, updatedData);
+//                const updatedData = JSON.stringify(objectData, null, 2);
+//                await fs.writeFile(eventsData1, updatedData);
+
+                // Store the updated events array
+                console.log(" In set", events.length)
+                await kv.set('events', events);
+                console.log(" In set 0", events.length)
+                return event;
             }
         } else {
+                console.log(" In undef")
+            return undefined;
         }
     } catch (error) {
         console.error(error);
+        return undefined;
     }
-    return event
 }
 
 async function getUser(email: string): Promise<User | undefined> {
@@ -260,7 +280,6 @@ async function storeEventKey() {
 //      }
 //    ]
 //  }
-
 
 
 //Empty list or one item list displays only the default. The EventsData1.json starts to be rendered after second 'add new'

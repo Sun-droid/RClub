@@ -54,7 +54,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
         url.pathname = '/events';
         return NextResponse.redirect(url);
     }
-    console.log("token ", token )
+//    console.log("token ", token )
 
 // Allow access to modals on the root path
     if (url.pathname === '/' && isModal) {

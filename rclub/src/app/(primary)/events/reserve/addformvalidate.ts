@@ -3,12 +3,29 @@ import {revalidatePath} from 'next/cache'
 import {promises as fs} from 'fs';
 import path from 'path';
 import {ICard, IPerson, ITicket, IReservation} from '@/app/types/types'
+import {kv} from '@vercel/kv';
+
 
 const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
+
 
 async function storeEvent(event: IReservation): Promise<IReservation | undefined> {
     const fileEvents = await fs.readFile(eventsDataReserve, 'utf8');
     const objectData = JSON.parse(fileEvents);
+    let reservations = await kv.get<IReservation[]>('reservations') || []
+//    console.log('reservations base', await kv.get('reservations'))
+//    console.log('reservations reservations base length', reservations.length)
+    if (!reservations) {
+//        console.log('reservations 00 base', await kv.get('reservations'))
+        //Loading the initial values / if any
+        await kv.set('reservations', objectData);
+//        console.log('reservations 01 base', await kv.get('reservations'))
+    } else console.log('reservations has', await kv.get('reservations'))
+
+//        const reservations = await kv.get<IReservation[]>('reservations') || [];
+
+//    console.log('reservations', reservations)
+
     let v = ""
     let dataVal = event
     let dataValToSave: IReservation[] = []
@@ -16,23 +33,31 @@ async function storeEvent(event: IReservation): Promise<IReservation | undefined
     const ts1 = ''
     try {
         //All if-condition working, paused. 
-        if (dataVal) {
-            if (dataVal.holder.person_name) {
-                objectData.push(dataVal)
+        if (event) { //Values stored?
+            if (event.holder.person_name) { //Double check
+//                objectData.push(dataVal)
+//            console.log('In');
+                reservations.push(event)
 //                const updatedData = JSON.stringify(objectData);
-                const updatedData = JSON.stringify(objectData, null, 2);
-                //            // Write the updated data to the JSON file
-                await fs.writeFile(eventsDataReserve, updatedData);
+
+//                const updatedData = JSON.stringify(objectData, null, 2);
+//                //            // Write the updated data to the JSON file
+//                await fs.writeFile(eventsDataReserve, updatedData);
+
+                await kv.set('reservations', reservations)
+//                console.log('reservations 00', reservations)
+                return event
             }
         } else {
-            console.log()
+            console.log('Invalid reservation data');
+            return undefined;
         }
     } catch (error) {
         console.error(error);
+        return undefined
         // Send an error response
         //            res.status(500).json({ message: 'Error storing data' });
     }
-    return event
 }
 
 let keyVal: number | undefined = 0
@@ -188,26 +213,43 @@ const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/Rese
 
 async function storeEventKey() {
     const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
-    const objectData = JSON.parse(fileEventsKey);
+    const objectData: string = JSON.parse(fileEventsKey);
+    let eventKey = await kv.get('eventKey')
+
+    if (!eventKey) {
+        console.log('eventKey 00 base', await kv.get('eventKey'))
+        eventKey = await kv.set('eventKey', objectData) || null;
+        console.log('eventKey 01 base', await kv.get('eventKey'))
+    } else console.log('eventKey has', await kv.get('eventKey'))
+
+    console.log('eventKey init  await kv.get(eventKey', await kv.get('eventKey'))
+    console.log('eventKey init typeof ', typeof eventKey)
     let v = ''
     let keyValToSave = await savedAddedValKey(v)
     try {
         if (Number(keyValToSave) !== 0) {
-            if (objectData.length > 0) {
-                //temp remove one item only
-                while (objectData.length > 0) {
-                    objectData.pop()
-                }
-                const updatedDataKey = JSON.stringify(objectData);
-                await fs.writeFile(eventsDataKey, updatedDataKey);
-            } else
-                console.log()
+            console.log('keyValToSave init', keyValToSave)
+//            if (objectData.length > 0) {
+            if (!eventKey) {
+                eventKey = '' //removing last or existing key
+//                await kv.set('eventKey', eventKey)
 
-            objectData.push(keyValToSave)
-            const updatedDataKey = JSON.stringify(objectData);
-            await fs.writeFile(eventsDataKey, updatedDataKey);
+                //temp remove one item only
+//                while (objectData.length > 0) {
+//                    objectData.pop()
+//                }
+//                const updatedDataKey = JSON.stringify(objectData);
+//                await fs.writeFile(eventsDataKey, updatedDataKey);
+            } else
+                console.log('Missing eventKey, adding new')
+
+//            objectData.push(keyValToSave)
+            await kv.set('eventKey', keyValToSave)
+//            const updatedDataKey = JSON.stringify(objectData);
+//            await fs.writeFile(eventsDataKey, updatedDataKey);
+            console.log('eventKey set 00', await kv.get('eventKey'))
         } else
-            console.log()
+            console.log('eventKey 0', eventKey)
 
     } catch (error) {
         console.error(error);
