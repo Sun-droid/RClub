@@ -1,4 +1,4 @@
-import {promises as fs} from 'fs';
+import {promises as fs, readFileSync} from 'fs';
 import path from 'path';
 import {kv} from '@vercel/kv';
 //import { savedAddedValKey } from './savedAddedValKey';
@@ -9,7 +9,7 @@ import {savedAddedValKey} from '@/app/(primary)/events/savedAddedValKey';
 
 export async function storeEventKey() {
 //    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
-    const fileEventsKey = await fs.readFile(path.join(
+    const fileEventsKey = await /*fs.readFile(*/ readFileSync( path.join(
             process.cwd(), "/src/app/(primary)/database/ReserveObjectKey.json",
         ), "utf8"
     );
