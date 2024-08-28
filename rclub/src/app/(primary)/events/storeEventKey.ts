@@ -11,7 +11,8 @@ export async function storeEventKey() {
 //    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
 
 
-    const fileEventsKeyPath = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json')
+//    const fileEventsKeyPath = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json')
+    const fileEventsKeyPath = path.join(process.cwd(), 'src', 'app','(primary)','database', 'ReserveObjectKey.json')
 //    const fileEventsKey = await fs.readdir(fileEventsKeyPath,'utf8')
     const fileEventsKey = await fs.readFile(fileEventsKeyPath,'utf8')
 
