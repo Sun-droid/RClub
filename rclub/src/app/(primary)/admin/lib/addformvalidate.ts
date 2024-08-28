@@ -11,7 +11,6 @@ import {ICard} from '@/app/types/types';
 import {kv} from '@vercel/kv';
 import {eventKey} from '@/app/(primary)/events/eventKey';
 import {storeEventKey} from '@/app/(primary)/events/storeEventKey';
-import {savedAddedValKey} from '@/app/(primary)/events/savedAddedValKey';
 
 
 const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
@@ -158,11 +157,6 @@ const prepareData = (formData: FormData, operation: 'create' | 'update' | 'delet
         redirect(`/events`)
     }
 
-    //Never recording
-//    let sv = ''
-//    savedAddedValKey(sv)
-//    storeEventKey()
-
     return dataMapBuild;
 };
 
@@ -192,10 +186,10 @@ export const submitData = async (formData: FormData, operation: 'create' | 'upda
     })
 
 //    await storeEvent(dt); // Store the event data
+
+//Unnecessary complexity
     let sv = ''
     eventKey('', String(keyVal))
-    console.log('Call 5: ', keyVal)
-//    savedAddedValKey(sv)
     storeEventKey()
 };
 
@@ -205,49 +199,7 @@ export const submitDeletion = async (formData: FormData) => {
     console.log("submitDeletion ", formData)
 };
 
-
-//export async function fetchAddedValKey(dataVal: string) {
-//    const response = await keyVal;
-//    dataVal = String(response)
-//    return dataVal
-//}
-//
-//export async function savedAddedValKey(sv: string) {
-//    let v = ""
-//    let dataVal = ""
-//    dataVal = await fetchAddedValKey(v)
-//    sv = dataVal
-//    return sv
-//}
-//
-//const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/EventsDataKey.json');
-//
-//async function storeEventKey() {
-//    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
-//    const objectData = JSON.parse(fileEventsKey);
-//    let v = ''
-//    let keyValToSave = await savedAddedValKey(v)
-//    try {
-//        if (Number(keyValToSave) !== 0) {
-//            if (objectData.length > 0) {
-//                while (objectData.length > 0) {
-//                    objectData.pop()
-//                }
-//                const updatedDataKey = JSON.stringify(objectData);
-//                await fs.writeFile(eventsDataKey, updatedDataKey);
-//            } else {
-//                console.log('Empty value')
-//            }
-//            objectData.push(keyValToSave)
-//            const updatedDataKey = JSON.stringify(objectData);
-//            await fs.writeFile(eventsDataKey, updatedDataKey);
-//        } else {
-//            console.log('Needs to add new')
-//        }
-//    } catch (error) {
-//        console.error(error);
-//    }
-//}
+// fetchAddedValKey, savedAddedValKey and storeEventKey -moved to global
 
 
 //Minor things to dev

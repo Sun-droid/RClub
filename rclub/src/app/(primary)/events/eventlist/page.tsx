@@ -3,7 +3,7 @@
 import {promises as fs} from "fs";
 import Card from "@/app/components/card";
 import AddedModal from "@/app/components/addedmodal";
-import {ICard, IReservation} from "@/app/types/types";
+import {ICard} from "@/app/types/types";
 import path from "path";
 import {auth} from '@/auth'
 import {kv} from '@vercel/kv';
@@ -23,31 +23,11 @@ export default async function Page() {
             ), "utf8"
         );
 
-//    // Read data
-//    const value = await kv.get('key');
-//
-//    // Write data
-//    await kv.set('key', value);
-
-//    const events: ICard[] = await kv.get('events') || [];
         const dataDefault = JSON.parse(fileDefault);
         const dataByAdmin = JSON.parse(fileByAdmin);
 //        const dataProp = dataDefault.array_elem[0];
         const dataProp1 = dataByAdmin.array_elem[1];
         let eventsInitial = await kv.get<ICard[]>('events') || []
-//console.log(" eventsInitial", eventsInitial)
-
-//Resetting reservations 
-//let reservations = await kv.get<IReservation[]>('reservations') || []
-//            console.log('await kv.get reservations)', await kv.get('reservations'));
-//            console.log('await kv.get reservations)', reservations.length);
-//            reservations=[]
-//            console.log('await kv.get reservations)', reservations.length);
-//            console.log('await kv.get reservations 00)', await kv.get('reservations'));
-//            await kv.set('reservations', reservations)
-//            console.log('await kv.get reservations 01)', await kv.get('reservations'));
-
-
 
         if (!eventsInitial) {
             await kv.set('events', dataByAdmin.array_elem);
@@ -55,6 +35,7 @@ export default async function Page() {
             console.log('Initial data imported successfully');
         }
 
+        //Overriding on every render
         await kv.set('events_default', dataDefault.array_elem[0]);
 
         // Fetch events from Vercel KV
@@ -72,11 +53,12 @@ export default async function Page() {
         if (itemsTotal >= 1 && itemsToRender >= 1) {
 //            const ao = dataByAdmin.array_elem;
 //            const ao = events;
-//Checking if/what exists in KV
-//console.log("await kv.get('lastAddedEventId')", await kv.get('lastAddedEventId')); //null
-//console.log("await kv.dbsize()", await kv.dbsize()); //null
-//console.log("await kv.keys('')", await kv.keys('')); //null
-console.log("await eventKey", await kv.get('eventKey')); //null
+
+            //Checking if/what exists in KV
+            //console.log("await kv.get('lastAddedEventId')", await kv.get('lastAddedEventId')); //null
+            //console.log("await kv.dbsize()", await kv.dbsize()); //null
+            //console.log("await kv.keys('')", await kv.keys('')); //null
+            //console.log("await eventKey", await kv.get('eventKey')); //null
             let v = "";
             let modal = true;
 
@@ -84,16 +66,6 @@ console.log("await eventKey", await kv.get('eventKey')); //null
             let addedLast = await kv.get('eventKey');
             let eventKey = await kv.get('eventKey') // Using the above addedLast instead
 
-console.log('Initial data addedLast', addedLast);
-console.log('Initial data eventKey', eventKey);
-
-
-//console.log("await eventKey00", await kv.get('eventKey')); //null
-
-
-//console.log("await eventKey00", await Object.entries(kv.get('eventKey')).length); //null
-console.log("await eventKey00 JSON.stringify", await JSON.stringify(eventKey).length); //char
-console.log("await eventKey00 ev", await eventKey); //char
             //Dev only
             let x = 0
 
@@ -126,21 +98,10 @@ console.log("await eventKey00 ev", await eventKey); //char
     }
 }
 
-const eventsDataKey = path.join(
-    process.cwd(),
-    "/src/app/(primary)/database/EventsDataKey.json"
-);
-
-//To get from Vercel KV
-//async function storedEventKey(s: string) {
-//    const fileEventsKey = await fs.readFile(eventsDataKey, "utf8");
-//    const objectData = JSON.parse(fileEventsKey);
-//    let v = "";
-//
-//    s = objectData[0];
-//
-//    return s;
-//}
+//const eventsDataKey = path.join(
+//    process.cwd(),
+//    "/src/app/(primary)/database/EventsDataKey.json"
+//);
 
 //Minor things to dev
 //For render, see also same info for requests in formData submit file in admin/lib/addforvalidate
