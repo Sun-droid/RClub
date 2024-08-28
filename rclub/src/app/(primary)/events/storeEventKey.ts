@@ -30,9 +30,9 @@ export async function storeEventKey() {
     let eventKey = await kv.get('eventKey')
 
     //Initial
-    if (!eventKey) {
-        eventKey = await kv.set('eventKey', objectData) || null;
-    } else console.log('eventKey has', await kv.get('eventKey'))
+//    if (!eventKey) {
+//        eventKey = await kv.set('eventKey', objectData) || null;
+//    } else console.log('eventKey has', await kv.get('eventKey'))
 
     let v = ''
     let keyValToSave = await savedAddedValKey(v)
