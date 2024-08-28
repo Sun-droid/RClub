@@ -139,7 +139,7 @@ export default async function Page() {
 //changed to 1 in line above in this file (if (Object.keys(dataByAdmin.array_elem).length >= 1) {). Perhaps a warning or info for the admin that there are soft deleted items
 
 
-export const defArray: ICard = {
+const defArray: ICard = {
     id: 0,
     title_main: '',
     title_description: '',
