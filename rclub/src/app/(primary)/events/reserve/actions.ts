@@ -1,6 +1,8 @@
 'use server'
-import {submitData, savedAddedReservation, savedAddedValKey} from './addformvalidate';
+//import {submitData, savedAddedReservation, savedAddedValKey} from './addformvalidate';
+import {submitData, savedAddedReservation} from './addformvalidate';
 import {redirect} from "next/navigation";
+import { savedAddedValKey } from '../savedAddedValKey';
 
 export async function addToDataFile(
     prevState: string | undefined,

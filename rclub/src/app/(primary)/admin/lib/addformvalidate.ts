@@ -9,6 +9,10 @@ import {promises as fs} from 'fs';
 import path from 'path';
 import {ICard} from '@/app/types/types';
 import {kv} from '@vercel/kv';
+import {eventKey} from '@/app/(primary)/events/eventKey';
+import {storeEventKey} from '@/app/(primary)/events/storeEventKey';
+import {savedAddedValKey} from '@/app/(primary)/events/savedAddedValKey';
+
 
 const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
 const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/EventsData1.json');
@@ -21,17 +25,14 @@ async function storeEvent(event: ICard, operation: 'create' | 'update' | 'delete
     let dataVal = event
     const ts = 'ad'
     const ts1 = ''
-    console.log(" In", event)
     try {
         if (dataVal) { // just to check that there is value to save
             if (dataVal.title_description) { // doouble check value to save
                 if (operation === 'update') {
 //                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
                     const index = events.findIndex((item: ICard) => item.id === event.id);
-console.log(" In up", )
                     if (index > -1) {
 //                        objectData.array_elem[index] = event;
-console.log(" In idx", )
                         events[index] = event;
                     } else {
                         console.error('Event ID not found for update:', event.id);
@@ -40,7 +41,6 @@ console.log(" In idx", )
                 } else if (operation === 'delete') {
 //                    const index = objectData.array_elem.findIndex((item: ICard) => item.id === event.id);
                     const index = events.findIndex((item: ICard) => item.id === event.id);
-console.log(" In del", )
                     if (index > -1) {
 //                        objectData.array_elem[index].deleted = true
                         events[index].deleted = true
@@ -51,22 +51,16 @@ console.log(" In del", )
 
                 } else {
 //                    objectData.array_elem.push(dataVal)
-console.log(" In create", )
-console.log(" In create even len", events.length)
-console.log(" In create even events", events)
                     events.push(event)
                 }
 //                const updatedData = JSON.stringify(objectData, null, 2);
 //                await fs.writeFile(eventsData1, updatedData);
 
                 // Store the updated events array
-                console.log(" In set", events.length)
                 await kv.set('events', events);
-                console.log(" In set 0", events.length)
                 return event;
             }
         } else {
-                console.log(" In undef")
             return undefined;
         }
     } catch (error) {
@@ -145,7 +139,6 @@ const prepareData = (formData: FormData, operation: 'create' | 'update' | 'delet
         else if (v[0] === 'icon_img' && v[1] === 'Default')
             dataMapBuild.set(v[0], pathLogoDefault)
         else if (v[0] === 'scene_title' && v[1] === '100') {
-            console.log('scene000 ', v[0])
             dataMapBuild.set(v[0], sceneRokrock)
             dataMapBuild.set('scene_img', sceneRokrockImg)
         } else if (v[0] === 'scene_title' && v[1] === '101') {
@@ -165,9 +158,10 @@ const prepareData = (formData: FormData, operation: 'create' | 'update' | 'delet
         redirect(`/events`)
     }
 
-    let sv = ''
-    savedAddedValKey(sv)
-    storeEventKey()
+    //Never recording
+//    let sv = ''
+//    savedAddedValKey(sv)
+//    storeEventKey()
 
     return dataMapBuild;
 };
@@ -198,6 +192,11 @@ export const submitData = async (formData: FormData, operation: 'create' | 'upda
     })
 
 //    await storeEvent(dt); // Store the event data
+    let sv = ''
+    eventKey('', String(keyVal))
+    console.log('Call 5: ', keyVal)
+//    savedAddedValKey(sv)
+    storeEventKey()
 };
 
 
@@ -207,47 +206,48 @@ export const submitDeletion = async (formData: FormData) => {
 };
 
 
-export async function fetchAddedValKey(dataVal: string) {
-    const response = await keyVal;
-    dataVal = String(response)
-    return dataVal
-}
-
-export async function savedAddedValKey(sv: string) {
-    let v = ""
-    let dataVal = ""
-    dataVal = await fetchAddedValKey(v)
-    sv = dataVal
-    return sv
-}
-
-const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/EventsDataKey.json');
-
-async function storeEventKey() {
-    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
-    const objectData = JSON.parse(fileEventsKey);
-    let v = ''
-    let keyValToSave = await savedAddedValKey(v)
-    try {
-        if (Number(keyValToSave) !== 0) {
-            if (objectData.length > 0) {
-                while (objectData.length > 0) {
-                    objectData.pop()
-                }
-                const updatedDataKey = JSON.stringify(objectData);
-                await fs.writeFile(eventsDataKey, updatedDataKey);
-            } else {
-                console.log()
-            }
-            objectData.push(keyValToSave)
-            const updatedDataKey = JSON.stringify(objectData);
-            await fs.writeFile(eventsDataKey, updatedDataKey);
-        } else {
-        }
-    } catch (error) {
-        console.error(error);
-    }
-}
+//export async function fetchAddedValKey(dataVal: string) {
+//    const response = await keyVal;
+//    dataVal = String(response)
+//    return dataVal
+//}
+//
+//export async function savedAddedValKey(sv: string) {
+//    let v = ""
+//    let dataVal = ""
+//    dataVal = await fetchAddedValKey(v)
+//    sv = dataVal
+//    return sv
+//}
+//
+//const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/EventsDataKey.json');
+//
+//async function storeEventKey() {
+//    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
+//    const objectData = JSON.parse(fileEventsKey);
+//    let v = ''
+//    let keyValToSave = await savedAddedValKey(v)
+//    try {
+//        if (Number(keyValToSave) !== 0) {
+//            if (objectData.length > 0) {
+//                while (objectData.length > 0) {
+//                    objectData.pop()
+//                }
+//                const updatedDataKey = JSON.stringify(objectData);
+//                await fs.writeFile(eventsDataKey, updatedDataKey);
+//            } else {
+//                console.log('Empty value')
+//            }
+//            objectData.push(keyValToSave)
+//            const updatedDataKey = JSON.stringify(objectData);
+//            await fs.writeFile(eventsDataKey, updatedDataKey);
+//        } else {
+//            console.log('Needs to add new')
+//        }
+//    } catch (error) {
+//        console.error(error);
+//    }
+//}
 
 
 //Minor things to dev

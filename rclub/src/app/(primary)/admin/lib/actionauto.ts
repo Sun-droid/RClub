@@ -35,7 +35,9 @@ export async function saveImagePaths(sv: string) {
         ), 'utf8'
     );
 
-
+//    Pausing this feature since there are enought paths to fetch, locally.
+//    Vercel works fetching/reading from the local Json.
+//    Use KV if needs to write
     const objectData = JSON.parse(jsonData);
     let v = ""
     let dataVal = ""
@@ -75,7 +77,7 @@ export async function localSavedImagePaths(sv: string) {
     try {
         if (dataVal.length > 0) {
         } else {
-            console.log();
+            console.log('Empty', dataVal.length);
         }
     } catch (error) {
         console.error(error);

@@ -1,9 +1,12 @@
-import {redirect} from 'next/navigation'
-import {revalidatePath} from 'next/cache'
+//Temporary, using formvalidate
+
 import {promises as fs} from 'fs';
 import path from 'path';
 import {ICard, IPerson, ITicket, IReservation} from '@/app/types/types'
 import {kv} from '@vercel/kv';
+import { eventKey } from '../eventKey';
+import { storeEventKey } from '../storeEventKey';
+import { savedAddedValKey } from '../savedAddedValKey';
 
 
 const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
@@ -190,71 +193,73 @@ export const submitData = async (formData: FormData) => {
     }
 
     let sv = ''
-    savedAddedValKey(sv)
+    eventKey('', String(keyVal))
+//    savedAddedValKey(sv)
     storeEventKey()
 }
 
-export async function fetchAddedValKey(dataVal: string) {
-    const response = await keyVal;
-//    See actions - need to convert/(pass param) to/as number already here 
-    dataVal = String(response)
-    return dataVal
-}
+//export async function fetchAddedValKey(dataVal: string) {
+//    const response = await keyVal;
+////    See actions - need to convert/(pass param) to/as number already here
+//    dataVal = String(response)
+//    return dataVal
+//}
 
-export async function savedAddedValKey(sv: string) {
-    let v = ""
-    let dataVal = ""
-    dataVal = await fetchAddedValKey(v)
-    sv = dataVal
-    return sv
-}
+//export async function savedAddedValKey(sv: string) {
+//    let v = ""
+//    let dataVal = ""
+//    dataVal = await fetchAddedValKey(v)
+//    sv = dataVal
+//    return sv
+//}
 
-const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json');
+//const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json');
 
-async function storeEventKey() {
-    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
-    const objectData: string = JSON.parse(fileEventsKey);
-    let eventKey = await kv.get('eventKey')
-
-    if (!eventKey) {
-        console.log('eventKey 00 base', await kv.get('eventKey'))
-        eventKey = await kv.set('eventKey', objectData) || null;
-        console.log('eventKey 01 base', await kv.get('eventKey'))
-    } else console.log('eventKey has', await kv.get('eventKey'))
-
-    console.log('eventKey init  await kv.get(eventKey', await kv.get('eventKey'))
-    console.log('eventKey init typeof ', typeof eventKey)
-    let v = ''
-    let keyValToSave = await savedAddedValKey(v)
-    try {
-        if (Number(keyValToSave) !== 0) {
-            console.log('keyValToSave init', keyValToSave)
-//            if (objectData.length > 0) {
-            if (!eventKey) {
-                eventKey = '' //removing last or existing key
-//                await kv.set('eventKey', eventKey)
-
-                //temp remove one item only
-//                while (objectData.length > 0) {
-//                    objectData.pop()
-//                }
-//                const updatedDataKey = JSON.stringify(objectData);
-//                await fs.writeFile(eventsDataKey, updatedDataKey);
-            } else
-                console.log('Missing eventKey, adding new')
-
-//            objectData.push(keyValToSave)
-            await kv.set('eventKey', keyValToSave)
-//            const updatedDataKey = JSON.stringify(objectData);
-//            await fs.writeFile(eventsDataKey, updatedDataKey);
-            console.log('eventKey set 00', await kv.get('eventKey'))
-        } else
-            console.log('eventKey 0', eventKey)
-
-    } catch (error) {
-        console.error(error);
-    }
-}
+//async function storeEventKey() {
+//    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
+//    const objectData: string = JSON.parse(fileEventsKey);
+//    let eventKey = await kv.get('eventKey')
+//
+//    //Initial
+//    if (!eventKey) {
+//        console.log('eventKey 00 base', await kv.get('eventKey'))
+//        eventKey = await kv.set('eventKey', objectData) || null;
+//        console.log('eventKey 01 base', await kv.get('eventKey'))
+//    } else console.log('eventKey has', await kv.get('eventKey'))
+//
+//    console.log('eventKey init  await kv.get(eventKey', await kv.get('eventKey'))
+//    console.log('eventKey init typeof ', typeof eventKey)
+//    let v = ''
+//    let keyValToSave = await savedAddedValKey(v)
+//    try {
+//        if (Number(keyValToSave) !== 0) {
+//            console.log('keyValToSave init', keyValToSave)
+////            if (objectData.length > 0) {
+//            if (!eventKey) {
+//                eventKey = '' //removing last or existing key
+////                await kv.set('eventKey', eventKey)
+//
+//                //temp remove one item only
+////                while (objectData.length > 0) {
+////                    objectData.pop()
+////                }
+////                const updatedDataKey = JSON.stringify(objectData);
+////                await fs.writeFile(eventsDataKey, updatedDataKey);
+//            } else
+//                console.log('Missing eventKey, adding new')
+//
+////            objectData.push(keyValToSave)
+//            await kv.set('eventKey', keyValToSave)
+////            const updatedDataKey = JSON.stringify(objectData);
+////            await fs.writeFile(eventsDataKey, updatedDataKey);
+//            console.log('eventKey set 00', await kv.get('eventKey'))
+//        } else
+//            console.log('eventKey 0', eventKey)
+//
+//    } catch (error) {
+//        console.error(error);
+//    }
+//}
 
 function array_positioning(obj: any[], current_index: number, new_index: number) {
     while (current_index < 0) {
