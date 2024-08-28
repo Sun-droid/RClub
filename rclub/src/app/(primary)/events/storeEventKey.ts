@@ -4,10 +4,15 @@ import {kv} from '@vercel/kv';
 //import { savedAddedValKey } from './savedAddedValKey';
 import {savedAddedValKey} from '@/app/(primary)/events/savedAddedValKey';
 
-const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json');
+//const eventsDataKey = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json');
+
 
 export async function storeEventKey() {
-    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
+//    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
+    const fileEventsKey = await fs.readFile(path.join(
+            process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json'
+        ), 'utf8'
+    );
     const objectData: string = JSON.parse(fileEventsKey);
     let eventKey = await kv.get('eventKey')
 
