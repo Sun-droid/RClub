@@ -35,6 +35,13 @@ export async function saveImagePaths(sv: string) {
         ), 'utf8'
     );
 
+
+//const fileUserJsonPath = path.join(process.cwd(), '/src/app/lib/data/users.json');
+//const fileUserJson = await fs.readFile(fileUserJsonPath, 'utf8')
+
+
+
+
 //    Pausing this feature since there are enought paths to fetch, locally.
 //    Vercel works fetching/reading from the local Json.
 //    Use KV if needs to write

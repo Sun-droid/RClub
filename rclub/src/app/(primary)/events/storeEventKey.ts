@@ -14,6 +14,10 @@ export async function storeEventKey() {
         ), "utf8"
     );
 
+//const fileUserJsonPath = path.join(process.cwd(), '/src/app/lib/data/users.json');
+//const fileUserJson = await fs.readFile(fileUserJsonPath, 'utf8')
+
+
     const objectData: string = JSON.parse(fileEventsKey);
     let eventKey = await kv.get('eventKey')
 
