@@ -12,6 +12,8 @@ import path from 'path';
 //1 & 2, src/app/(primary)/admin/lib/addformvalidate.ts
 //3, src/app/api/route.ts
 
+//5, src/app/(primary)/events/storeEventKey.ts
+
 //Using - const fileUserJson = await fs.readFile(process.cwd() + '/src/app/lib/data/users.json', 'utf8'); in
 //src/app/(primary)/admin/lib/addformvalidate.ts 
 
@@ -53,6 +55,16 @@ async function importInitialData() {
 
         if (!imagePaths)
             await kv.set('imagePaths', imagePathsLocal);
+
+
+//5     //For src/app/(primary)/events/storeEventKey.ts
+        // Import key path - unnecessary.
+        const keyPathsPath = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json');
+        const keyPathsLocal = JSON.parse(await fs.readFile(keyPathsPath, 'utf8'));
+        const keyPaths = await kv.get<string[]>('eventKey') || [];
+
+        if (!keyPaths)
+            await kv.set('eventKey', keyPathsLocal) || null;
 
 
         console.log('Initial data imported successfully');
