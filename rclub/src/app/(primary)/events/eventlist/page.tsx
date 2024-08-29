@@ -13,37 +13,40 @@ export default async function Page() {
     const session = await auth()
 
     try {
-        const fileDefault = await fs.readFile(path.join(
-                process.cwd(), "/src/app/(primary)/events/srcFiles/DefaultCard.json",
-            ), "utf8"
-        );
+        //Server render
+//        const fileDefault = await fs.readFile(path.join(
+//                process.cwd(), "/src/app/(primary)/events/srcFiles/DefaultCard.json",
+//            ), "utf8"
+//        );
+//
+//        const fileByAdmin = await fs.readFile(path.join(
+//                process.cwd(), "/src/app/(primary)/database/EventsData1.json",
+//            ), "utf8"
+//        );
 
-        const fileByAdmin = await fs.readFile(path.join(
-                process.cwd(), "/src/app/(primary)/database/EventsData1.json",
-            ), "utf8"
-        );
+//        const dataDefault = JSON.parse(fileDefault);
+//        const dataByAdmin = JSON.parse(fileByAdmin);
 
-        const dataDefault = JSON.parse(fileDefault);
-        const dataByAdmin = JSON.parse(fileByAdmin);
 //        const dataProp = dataDefault.array_elem[0];
-        const dataProp1 = dataByAdmin.array_elem[1];
-        let eventsInitial = await kv.get<ICard[]>('events') || []
+//        const dataProp1 = dataByAdmin.array_elem[1];
 
-        if (!eventsInitial) {
-            await kv.set('events', dataByAdmin.array_elem);
-            // Store the entire array in Vercel KV
-            console.log('Initial data imported successfully');
-        }
+//        let eventsInitial = await kv.get<ICard[]>('events') || []
+
+//        if (!eventsInitial) {
+//            await kv.set('events', dataByAdmin.array_elem);
+//            // Store the entire array in Vercel KV
+//            console.log('Initial data imported successfully');
+//        }
 
         //Overriding on every render
-        await kv.set('events_default', dataDefault.array_elem[0]);
+//        await kv.set('events_default', dataDefault.array_elem[0]);
 
         // Fetch events from Vercel KV
         const events: ICard[] = await kv.get('events') || [];
         const dataProp: ICard = await kv.get('events_default') || defArray;
 
         const eventList = [];
-        const e = Object.keys(dataByAdmin.array_elem);
+//        const e = Object.keys(dataByAdmin.array_elem);
 
 //        const itemsToRender = dataByAdmin.array_elem.filter((n: ICard) => n.deleted !== true).length
         const itemsToRender = events.filter((n: ICard) => n.deleted !== true).length

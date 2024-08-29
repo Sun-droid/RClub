@@ -13,12 +13,12 @@ import {eventKey} from '@/app/(primary)/events/eventKey';
 import {storeEventKey} from '@/app/(primary)/events/storeEventKey';
 
 
-const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
-const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/EventsData1.json');
+//const eventsData = path.join(process.cwd(), '/src/app/(primary)/database/EventsData.json');
+//const eventsData1 = path.join(process.cwd(), '/src/app/(primary)/database/EventsData1.json');
 
 async function storeEvent(event: ICard, operation: 'create' | 'update' | 'delete'): Promise<ICard | undefined> {
-    const fileEvents = await fs.readFile(eventsData1, 'utf8');
-    const objectData = JSON.parse(fileEvents);
+//    const fileEvents = await fs.readFile(eventsData1, 'utf8');
+//    const objectData = JSON.parse(fileEvents);
     let events = await kv.get<ICard[]>('events') || [];
     let v = ""
     let dataVal = event

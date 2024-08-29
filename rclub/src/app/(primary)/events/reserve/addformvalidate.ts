@@ -8,17 +8,17 @@ import {eventKey} from '../eventKey';
 import {storeEventKey} from '../storeEventKey';
 
 
-const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
+//const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
 
 async function storeEvent(event: IReservation): Promise<IReservation | undefined> {
-    const fileEvents = await fs.readFile(eventsDataReserve, 'utf8');
-    const objectData = JSON.parse(fileEvents);
+//    const fileEvents = await fs.readFile(eventsDataReserve, 'utf8');
+//    const objectData = JSON.parse(fileEvents);
     let reservations = await kv.get<IReservation[]>('reservations') || []
 
-    if (!reservations) {
-        //Loading the initial values / if any
-        await kv.set('reservations', objectData);
-    } else console.log('reservations has', await kv.get('reservations'))
+//    if (!reservations) {
+//        //Loading the initial values / if any
+//        await kv.set('reservations', objectData);
+//    } else console.log('reservations has', await kv.get('reservations'))
 
 //        const reservations = await kv.get<IReservation[]>('reservations') || [];
 

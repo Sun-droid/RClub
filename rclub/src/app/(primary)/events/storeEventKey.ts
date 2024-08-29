@@ -8,13 +8,13 @@ import {savedAddedValKey} from '@/app/(primary)/events/savedAddedValKey';
 
 
 export async function storeEventKey() {
-////    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
-//
-//
-////    const fileEventsKeyPath = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json')
-//    const fileEventsKeyPath = path.join(process.cwd(), 'src', 'app','(primary)','database', 'ReserveObjectKey.json')
-////    const fileEventsKey = await fs.readdir(fileEventsKeyPath,'utf8')
-//    const fileEventsKey = await fs.readFile(fileEventsKeyPath,'utf8')
+//    const fileEventsKey = await fs.readFile(eventsDataKey, 'utf8');
+
+
+//    const fileEventsKeyPath = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObjectKey.json')
+    const fileEventsKeyPath = path.join(process.cwd(), 'src', 'app','(primary)','database', 'ReserveObjectKey.json')
+//    const fileEventsKey = await fs.readdir(fileEventsKeyPath,'utf8')
+    const fileEventsKey = await fs.readFile(fileEventsKeyPath,'utf8')
 
 
 //    const fileEventsKey = await fs.readFile(path.join(
@@ -26,13 +26,13 @@ export async function storeEventKey() {
 //const fileUserJson = await fs.readFile(fileUserJsonPath, 'utf8')
 
 
-//    const objectData: string = JSON.parse(fileEventsKey);
+    const objectData: string = JSON.parse(fileEventsKey);
     let eventKey = await kv.get('eventKey')
 
     //Initial
-//    if (!eventKey) {
-//        eventKey = await kv.set('eventKey', objectData) || null;
-//    } else console.log('eventKey has', await kv.get('eventKey'))
+    if (!eventKey) {
+        eventKey = await kv.set('eventKey', objectData) || null;
+    } else console.log('eventKey has', await kv.get('eventKey'))
 
     let v = ''
     let keyValToSave = await savedAddedValKey(v)

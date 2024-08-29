@@ -26,6 +26,7 @@ export async function fetchImagePaths(dataVal: string) {
     return dataVal
 }
 
+//Paused -use only in dev mode, in local files
 //Images are being saved for future dev and decreased API requests
 export async function saveImagePaths(sv: string) {
 //    const jsonData = await fs.readFile(dataFilePath, 'utf8');
@@ -65,13 +66,13 @@ export async function saveImagePaths(sv: string) {
 
 export async function localSavedImagePaths(sv: string) {
 //    const jsonData = await fs.readFile(localDataFilePaths, 'utf8');
-    const jsonData = await fs.readFile(path.join(
-            process.cwd(), '/src/app/(primary)/admin/lib/Data1.json',
-        ), 'utf8'
-    );
-    const objectData = JSON.parse(jsonData);
+//    const jsonData = await fs.readFile(path.join(
+//            process.cwd(), '/src/app/(primary)/admin/lib/Data1.json',
+//        ), 'utf8'
+//    );
+//    const objectData = JSON.parse(jsonData);
     //Loading the base data
-    await kv.set('imagePaths', objectData);
+//    await kv.set('imagePaths', objectData);
     const imagePaths = await kv.get<string[]>('imagePaths') || [];
 
 
