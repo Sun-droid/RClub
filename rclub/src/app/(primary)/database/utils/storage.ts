@@ -43,6 +43,7 @@ async function importInitialData() {
         const reservationsData = JSON.parse(await fs.readFile(reservationsPath, 'utf8'));
 
         let reservations = await kv.get<IReservation[]>('reservations') || []
+        console.log("In reservations    storage 00await kv.get<IReservation[]>('reservations')", await kv.get<IReservation[]>('reservations'))
 
         if (!reservations)
             await kv.set('reservations', reservationsData);
@@ -64,7 +65,7 @@ async function importInitialData() {
         const keyPaths = await kv.get<string[]>('eventKey') || [];
 
         if (!keyPaths)
-            await kv.set('eventKey', keyPathsLocal) || null;
+            await kv.set('eventKey', keyPathsLocal);
 
 
         console.log('Initial data imported successfully');

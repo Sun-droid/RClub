@@ -14,7 +14,7 @@ async function storeEvent(event: IReservation): Promise<IReservation | undefined
 //    const fileEvents = await fs.readFile(eventsDataReserve, 'utf8');
 //    const objectData = JSON.parse(fileEvents);
     let reservations = await kv.get<IReservation[]>('reservations') || []
-
+console.log("reservations add",reservations )
 //    if (!reservations) {
 //        //Loading the initial values / if any
 //        await kv.set('reservations', objectData);
@@ -32,13 +32,14 @@ async function storeEvent(event: IReservation): Promise<IReservation | undefined
         if (event) { //Values stored?
             if (event.holder.person_name) { //Double check
 //                objectData.push(dataVal)
+//console.log("In reservations", reservations)
                 reservations.push(event)
+//console.log("In reservations pu", reservations)
 //                const updatedData = JSON.stringify(objectData);
 
 //                const updatedData = JSON.stringify(objectData, null, 2);
 //                //            // Write the updated data to the JSON file
 //                await fs.writeFile(eventsDataReserve, updatedData);
-
                 await kv.set('reservations', reservations)
                 return event
             }

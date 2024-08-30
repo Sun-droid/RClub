@@ -23,14 +23,17 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
         };
         fetchBookings();
     }, []);
+            console.log(" bookings : ", bookings)
 
     useEffect(() => {
         const countReservations = () => {
             const count = bookings.filter(booking => booking.object_reserved.event_id === bookedCount).length;
+            console.log(" count : ", count)
             setTotalReservations(count);
         };
         countReservations();
     }, [bookings, bookedCount]);
+            console.log(" totalReservations : ", totalReservations)
 
     function getErrorMessage(error: unknown) {
         if (error instanceof Error) return error.message

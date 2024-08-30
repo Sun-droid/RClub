@@ -5,7 +5,7 @@ import {kv} from '@vercel/kv';
 import {IReservation} from '../types/types';
 
 
-const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
+//const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
 
 export async function GET() {
     try {
@@ -14,7 +14,7 @@ export async function GET() {
 //        const data = JSON.parse(fileContents);
 
         let reservations = await kv.get<IReservation[]>('reservations') || []
-
+        console.log('reservations Get', reservations)
 //        if (reservations) {
 //            return NextResponse.json(reservations);
 //        } else console.log('reservations has', await kv.get('reservations'))
