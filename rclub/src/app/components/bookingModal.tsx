@@ -18,8 +18,11 @@ const BookingModal: React.FC<{ bookedCount: number, isVisible: boolean, onClose:
                 if (!response.ok) {
                     throw new Error('Network response issues');
                 }
+//                const data = await response.json();
+//                setBookings(data);
                 const data = await response.json();
-                setBookings(data);
+                const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+                setBookings(parsedData);
             } catch (err) {
                 setError(getErrorMessage(err));
             } finally {

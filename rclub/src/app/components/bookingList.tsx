@@ -1,43 +1,54 @@
 import React, {useEffect, useState} from 'react';
-import {IBookedCount} from '@/app/types/types';
+import {IBookedCount, IReservation} from '@/app/types/types';
 
 const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
-    const [bookings, setBookings] = useState<any[]>([]);
+    const [bookings, setBookings] = useState<IReservation[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [totalReservations, setTotalReservations] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchBookings = async () => {
             try {
+                setIsLoading(true);
                 // Fetch from the API
                 const response = await fetch('/api/');
                 if (!response.ok) {
-                    console.error()
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-//                const {session, data} = await response.json();
                 const data = await response.json();
-                setBookings(data);
+                const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+                setBookings(parsedData);
             } catch (err) {
                 setError(getErrorMessage(err));
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchBookings();
+
+//            setInterval(fetchBookings, 5000); // Poll every 5 seconds
+
+
+
     }, []);
-            console.log(" bookings : ", bookings)
+
+
 
     useEffect(() => {
         const countReservations = () => {
-            const count = bookings.filter(booking => booking.object_reserved.event_id === bookedCount).length;
-            console.log(" count : ", count)
+            const count = bookings.filter(booking => Number(booking.object_reserved.event_id) === bookedCount).length;
             setTotalReservations(count);
         };
         countReservations();
     }, [bookings, bookedCount]);
-            console.log(" totalReservations : ", totalReservations)
 
     function getErrorMessage(error: unknown) {
         if (error instanceof Error) return error.message
         return String(error)
+    }
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
 
     if (error) {

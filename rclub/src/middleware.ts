@@ -63,7 +63,6 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
             // Redirect to login if trying to access admin modal without being logged in
 //            url.pathname = '/?signmodal=true';
 //            url.search = '';
-            console.log("token isModal ", token)
             url.pathname = '/';
             url.searchParams.set('signmodal', 'true');
             return NextResponse.redirect(url);
@@ -72,7 +71,6 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 //        This is working
 //        if (token && url.search == '?signmodal=true') {
         if (token && isSignModal) {
-            console.log("token IsSignModal", token)
             url.pathname = '/events';
             url.search = '';
             return NextResponse.redirect(url);

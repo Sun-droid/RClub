@@ -1,35 +1,49 @@
 import {NextResponse} from 'next/server';
-import {promises as fs} from 'fs';
-import path from 'path';
-import {kv} from '@vercel/kv';
-import {IReservation} from '../types/types';
-
-
-//const eventsDataReserve = path.join(process.cwd(), '/src/app/(primary)/database/ReserveObject.json');
 
 export async function GET() {
     try {
-//        const filePath = path.join(process.cwd(), 'src/app/(primary)/database/ReserveObject.json');
-//        const fileContents = await fs.readFile(filePath, 'utf8');
-//        const data = JSON.parse(fileContents);
+        const fetchDataFromKV = async () => {
+            try {
+                const response = await fetch(`${process.env.KV_REST_API_URL}/get/reservations`, {
+                    headers: {
+                        Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+//                        Authorization: `Bearer ${process.env.KV_REST_API_READ_ONLY_TOKEN}`,
+                    },
+                    cache: 'no-store'
+                })
 
-        let reservations = await kv.get<IReservation[]>('reservations') || []
-        console.log('reservations Get', reservations)
-//        if (reservations) {
-//            return NextResponse.json(reservations);
-//        } else console.log('reservations has', await kv.get('reservations'))
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data from KV');
+                }
 
-        return NextResponse.json(reservations);
-//        return NextResponse.json(data);
+                const parsedResult = await response.json();
+                return parsedResult.result
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        };
+
+//        console.log("What await response.json() parse: ", await fetchDataFromKV())
+        const bookings = await fetchDataFromKV();
+//        console.log("Fetched bookings: ", bookings);
+
+
+//        return NextResponse.json(await fetchDataFromKV());
+//        return NextResponse.json(bookings);
+        return NextResponse.json(bookings, {
+            headers: {
+                'Cache-Control': 'no-store  max-age=0',
+            },
+        });
     } catch (error) {
-//        return NextResponse.json({error: getErrorMessage(error)}, {status: 500});
         return console.error({error: getErrorMessage(error)}, {status: 500});
     }
 }
+
 
 function getErrorMessage(error: unknown) {
     if (error instanceof Error) return error.message
     return String(error)
 }
-
-

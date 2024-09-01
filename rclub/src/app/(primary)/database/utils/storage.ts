@@ -43,10 +43,11 @@ async function importInitialData() {
         const reservationsData = JSON.parse(await fs.readFile(reservationsPath, 'utf8'));
 
         let reservations = await kv.get<IReservation[]>('reservations') || []
-        console.log("In reservations    storage 00await kv.get<IReservation[]>('reservations')", await kv.get<IReservation[]>('reservations'))
-
         if (!reservations)
             await kv.set('reservations', reservationsData);
+
+        const response = await fetch('/api/');
+
 
 //4     //For src/app/(primary)/admin/lib/actionauto.ts
         // Import image paths

@@ -80,7 +80,6 @@ export default async function Page() {
                 </div>
             ));
             listItems.sort((a: any, b: any) => b.key - a.key);
-            console.log('Initial data addedLast00', addedLast);
             return (
                 <div>
                     {listItems}
@@ -101,10 +100,6 @@ export default async function Page() {
     }
 }
 
-//const eventsDataKey = path.join(
-//    process.cwd(),
-//    "/src/app/(primary)/database/EventsDataKey.json"
-//);
 
 //Minor things to dev
 //For render, see also same info for requests in formData submit file in admin/lib/addforvalidate
