@@ -13,8 +13,8 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
             try {
                 setIsLoading(true);
                 // Fetch from the API
-                const response = await fetch(`/api/?t=${new Date().getTime()}`, {
-                    method: 'GET',
+//                const response = await fetch(`/api/?t=${new Date().getTime()}`, {
+                const response = await fetch(`/api/?timestamp=${Date.now()}`, {
                     cache: 'no-store'
                 });
 
