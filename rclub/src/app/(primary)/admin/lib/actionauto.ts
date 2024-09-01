@@ -31,10 +31,10 @@ export async function fetchImagePaths(dataVal: string) {
 export async function saveImagePaths(sv: string) {
 //    const jsonData = await fs.readFile(dataFilePath, 'utf8');
 
-    const jsonData = await fs.readFile(path.join(
-            process.cwd(), '/src/app/(primary)/admin/lib/Data2.json',
-        ), 'utf8'
-    );
+//    const jsonData = await fs.readFile(path.join(
+//            process.cwd(), '/src/app/(primary)/admin/lib/Data2.json',
+//        ), 'utf8'
+//    );
 
 
 //const fileUserJsonPath = path.join(process.cwd(), '/src/app/lib/data/users.json');
@@ -46,21 +46,23 @@ export async function saveImagePaths(sv: string) {
 //    Pausing this feature since there are enought paths to fetch, locally.
 //    Vercel works fetching/reading from the local Json.
 //    Use KV if needs to write
-    const objectData = JSON.parse(jsonData);
+//    const objectData = JSON.parse(jsonData);
     let v = ""
     let dataVal = ""
     dataVal = await fetchImagePaths(v)
     sv = dataVal
-    try {
-        if (dataVal.length > 0) {
-            await kv.set('imagePaths', dataVal)
-//            sv= await kv.get('imagePaths') // needs to get one item only
-        } else {
-            console.log('No image paths found');
-        }
-    } catch (error) {
-        console.error(error);
-    }
+
+//    Pausing the single add. Use the already stored paths with 'localSavedImagePaths(sv: string)' (below)
+//    try {
+//        if (dataVal.length > 0) {
+//            await kv.set('imagePaths', dataVal)
+////            sv= await kv.get('imagePaths') // needs to get one item only
+//        } else {
+//            console.log('No image paths found');
+//        }
+//    } catch (error) {
+//        console.error(error);
+//    }
     return dataVal
 }
 

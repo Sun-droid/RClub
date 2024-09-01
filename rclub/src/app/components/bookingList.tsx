@@ -12,7 +12,10 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
             try {
                 setIsLoading(true);
                 // Fetch from the API
-                const response = await fetch('/api/');
+                const response = await fetch('/api/', {
+                    method: 'GET',
+                    cache: 'no-store'
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

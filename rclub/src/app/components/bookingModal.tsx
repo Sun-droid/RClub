@@ -14,7 +14,10 @@ const BookingModal: React.FC<{ bookedCount: number, isVisible: boolean, onClose:
         const fetchBookings = async () => {
             try {
                 // Fetch from the API
-                const response = await fetch('/api/');
+                const response = await fetch('/api/', {
+                    method: 'GET',
+                    cache: 'no-store'
+                });
                 if (!response.ok) {
                     throw new Error('Network response issues');
                 }
