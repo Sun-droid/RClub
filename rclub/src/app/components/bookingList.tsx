@@ -6,6 +6,7 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
     const [error, setError] = useState<string | null>(null);
     const [totalReservations, setTotalReservations] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -26,15 +27,16 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
                 setError(getErrorMessage(err));
             } finally {
                 setIsLoading(false);
+                setCount(1);
             }
         };
         fetchBookings();
-
-//            setInterval(fetchBookings, 5000); // Poll every 5 seconds
-
-
-
     }, []);
+
+
+    useEffect(() => {
+        console.log(`Count has changed to: ${count}`);
+    }, [count]);
 
 
 

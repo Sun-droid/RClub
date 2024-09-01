@@ -32,9 +32,10 @@ export async function GET() {
 console.log('Fetched bookings:', bookings);
 //        return NextResponse.json(await fetchDataFromKV());
 //        return NextResponse.json(bookings);
+//                'Cache-Control': 'no-store  max-age=0',
         return NextResponse.json(bookings, {
             headers: {
-                'Cache-Control': 'no-store  max-age=0',
+                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
             },
         });
     } catch (error) {
