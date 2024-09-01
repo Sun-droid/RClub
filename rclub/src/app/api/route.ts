@@ -11,12 +11,12 @@ export async function GET() {
                     },
                     cache: 'no-store'
                 })
-
                 if (!response.ok) {
                     throw new Error('Failed to fetch data from KV');
                 }
 
                 const parsedResult = await response.json();
+//                console.log('Fetched bookings:', JSON.stringify(parsedResult));
                 return parsedResult.result
 
             } catch (error) {
@@ -29,7 +29,7 @@ export async function GET() {
         const bookings = await fetchDataFromKV();
 //        console.log("Fetched bookings: ", bookings);
 
-
+console.log('Fetched bookings:', bookings);
 //        return NextResponse.json(await fetchDataFromKV());
 //        return NextResponse.json(bookings);
         return NextResponse.json(bookings, {
