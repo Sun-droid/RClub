@@ -13,17 +13,23 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
             try {
                 setIsLoading(true);
                 // Fetch from the API
-//                const response = await fetch(`/api/?t=${new Date().getTime()}`, {
-                const response = await fetch(`/api/?timestamp=${Date.now()}`, {
+                const response = await fetch(`/api/?t=${new Date().getTime()}`, {
+//                const response = await fetch(`/api/?timestamp=${Date.now()}`, {
+                    method: 'GET',
                     cache: 'no-store'
                 });
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
                 const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
-                setBookings(parsedData);
+
+//                console.log("response ", Object.entries(parsedData)[0][1])
+//                console.log("response ", parsedData)
+                const bookings = data.data || []
+                console.log("response ", bookings)
+//                setBookings(parsedData);
+                setBookings(bookings);
             } catch (err) {
                 setError(getErrorMessage(err));
             } finally {
