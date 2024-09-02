@@ -54,7 +54,7 @@ export async function GET(request: Request) {
   const data = await kv.get('reservations');
 //  console.log('data :', JSON.stringify(data))
   // Return the data
-//  revalidateTag('reservations')
+  revalidateTag('reservations')
   return NextResponse.json({ data });
 }
 
