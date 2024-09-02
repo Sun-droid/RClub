@@ -47,12 +47,14 @@ import {NextResponse} from 'next/server';
 
 
 import { kv } from '@vercel/kv';
+import { revalidateTag } from 'next/cache'
 
 export async function GET(request: Request) {
   // Fetch data from Vercel KV
   const data = await kv.get('reservations');
-  console.log('data :', JSON.stringify(data))
+//  console.log('data :', JSON.stringify(data))
   // Return the data
+//  revalidateTag('reservations')
   return NextResponse.json({ data });
 }
 

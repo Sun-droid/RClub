@@ -18,7 +18,7 @@ import path from 'path';
 //src/app/(primary)/admin/lib/addformvalidate.ts 
 
 //Script runs once to populate the Vercel KV with the initial data from JSON files
-async function importInitialData() {
+export default async function importInitialData() {
     try {
 //1 & 2 //For src/app/(primary)/events/eventlist/page.tsx
         // Import event data
@@ -36,6 +36,11 @@ async function importInitialData() {
         if (!eventsInitialDefault)
             await kv.set('events', eventsData.array_elem);
 
+        //Reset all
+//        let events:ICard[] = [];
+//        if (eventsInitialDefault)
+//            await kv.set('events', events);
+
 
 //3     //For src/app/(primary)/events/reserve/addformvalidate.ts
         // Import reservations
@@ -43,10 +48,22 @@ async function importInitialData() {
         const reservationsData = JSON.parse(await fs.readFile(reservationsPath, 'utf8'));
 
         let reservations = await kv.get<IReservation[]>('reservations') || []
-        if (!reservations)
+        console.log('reservations has', reservations)
+        console.log('reservations has', reservations.length)
+//        if (!reservations)
+        if (!reservations || reservations.length === 0)
             await kv.set('reservations', reservationsData);
 
-        const response = await fetch('/api/');
+        console.log('reservations has', reservations)
+
+//        console.log('reservations has', reservations)
+//        Reset all
+//        const reservationsDataReset: IReservation[] = []
+//        if (reservations)
+//            await kv.set('reservations', reservationsDataReset);
+
+
+//        const response = await fetch('/api/');
 
 
 //4     //For src/app/(primary)/admin/lib/actionauto.ts

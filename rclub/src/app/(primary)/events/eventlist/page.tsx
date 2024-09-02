@@ -7,7 +7,7 @@ import {ICard} from "@/app/types/types";
 import path from "path";
 import {auth} from '@/auth'
 import {kv} from '@vercel/kv';
-
+import importInitialData from '@/app/(primary)/database/utils/storage'
 let c = 0;
 export default async function Page() {
     const session = await auth()
@@ -60,8 +60,17 @@ export default async function Page() {
             //Checking if/what exists in KV
             //console.log("await kv.get('lastAddedEventId')", await kv.get('lastAddedEventId')); //null
             //console.log("await kv.dbsize()", await kv.dbsize()); //null
+
+
+
+
+
             //console.log("await kv.keys('')", await kv.keys('')); //null
             //console.log("await eventKey", await kv.get('eventKey')); //null
+
+
+
+
             let v = "";
             let modal = true;
 
@@ -99,6 +108,8 @@ export default async function Page() {
         console.error('Error importing initial data:', error);
     }
 }
+//Call/use for reseting
+importInitialData();
 
 
 //Minor things to dev
