@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {IBookedCount, IReservation} from '@/app/types/types';
+import actionRevalidate from './revalidateTag';
 
 const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
     const [bookings, setBookings] = useState<IReservation[]>([]);
@@ -18,6 +19,7 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
                     method: 'GET',
                     cache: 'no-store'
                 });
+                await actionRevalidate()
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

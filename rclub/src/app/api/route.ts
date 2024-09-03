@@ -30,8 +30,6 @@ export async function GET() {
 //        console.log("What await response.json() parse: ", await fetchDataFromKV())
         const bookings = await fetchDataFromKV();
 
-        if (bookings)
-            action()
 //        console.log("Fetched bookings: ", bookings);
 
 //console.log('Fetched bookings:', bookings);
@@ -45,10 +43,6 @@ export async function GET() {
     }
 }
 
-
-function action() {
-    revalidateTag('reservations')
-}
 
 
 //Working version
