@@ -1,6 +1,7 @@
 import {NextResponse} from 'next/server';
 import {revalidateTag} from 'next/cache'
 
+import actionRevalidate from '@/app/components/revalidateTag';
 
 export async function GET() {
     try {
@@ -37,6 +38,7 @@ export async function GET() {
 //        return NextResponse.json(await fetchDataFromKV());
 //        return NextResponse.json(bookings);
 //                'Cache-Control': 'no-store  max-age=0',
+await actionRevalidate()
         return NextResponse.json(bookings)
     } catch (error) {
         return console.error({error: getErrorMessage(error)}, {status: 500});
