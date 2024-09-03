@@ -52,7 +52,7 @@ export default async function importInitialData() {
 //        console.log('reservations has', reservations.length)
 //        if (!reservations)
 
-        //Reset all, comment out for resetting
+        //Reset all, comment out for resetting - Refresh page for updating
         if (!reservations || reservations.length === 0)
             await kv.set('reservations', reservationsData);
 
@@ -61,7 +61,7 @@ export default async function importInitialData() {
 //        console.log('reservations has', reservations)
 
 
-//        Reset all
+//        Reset all -  - Refresh page for updating
 //        const reservationsDataReset: IReservation[] = []
 //        if (reservations)
 //            await kv.set('reservations', reservationsDataReset);
