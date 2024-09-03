@@ -13,11 +13,13 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
             try {
                 setIsLoading(true);
                 // Fetch from the API
-                const response = await fetch(`/api/?t=${new Date().getTime()}`, {
-//                const response = await fetch(`/api/?timestamp=${Date.now()}`, {
-                    method: 'GET',
-                    cache: 'no-store'
-                });
+//                const response = await fetch(`/api/?t=${new Date().getTime()}`, {
+////                const response = await fetch(`/api/?timestamp=${Date.now()}`, {
+//                    method: 'GET',
+//                    cache: 'no-store'
+//                });
+
+                const response = await fetch('/api/')
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -48,7 +50,6 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
     }, [count]);
 
 
-
     useEffect(() => {
         const countReservations = () => {
             const count = bookings.filter(booking => Number(booking.object_reserved.event_id) === bookedCount).length;
@@ -61,6 +62,7 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
         if (error instanceof Error) return error.message
         return String(error)
     }
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
