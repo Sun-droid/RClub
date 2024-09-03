@@ -48,15 +48,19 @@ export default async function importInitialData() {
         const reservationsData = JSON.parse(await fs.readFile(reservationsPath, 'utf8'));
 
         let reservations = await kv.get<IReservation[]>('reservations') || []
-        console.log('reservations has', reservations)
-        console.log('reservations has', reservations.length)
+//        console.log('reservations has', reservations)
+//        console.log('reservations has', reservations.length)
 //        if (!reservations)
+
+        //Reset all, comment out for resetting
         if (!reservations || reservations.length === 0)
             await kv.set('reservations', reservationsData);
 
-        console.log('reservations has', reservations)
+//        console.log('reservations has', reservations)
 
 //        console.log('reservations has', reservations)
+
+
 //        Reset all
 //        const reservationsDataReset: IReservation[] = []
 //        if (reservations)

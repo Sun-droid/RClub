@@ -22,14 +22,15 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
+                console.log('reservations client', data)
                 const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
 
 //                console.log("response ", Object.entries(parsedData)[0][1])
 //                console.log("response ", parsedData)
-                const bookings = data.data || []
+//                const bookings = data.data || []
                 console.log("response ", bookings)
-//                setBookings(parsedData);
-                setBookings(bookings);
+                setBookings(parsedData);
+//                setBookings(bookings);
             } catch (err) {
                 setError(getErrorMessage(err));
             } finally {
