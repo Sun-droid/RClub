@@ -28,10 +28,10 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
 
 //                console.log("response ", Object.entries(parsedData)[0][1])
 //                console.log("response ", parsedData)
-//                const bookings = data.data || []
+                const bookings = data.data || []
                 console.log("response ", bookings)
-                setBookings(parsedData);
-//                setBookings(bookings);
+//                setBookings(parsedData);
+                setBookings(bookings);
             } catch (err) {
                 setError(getErrorMessage(err));
             } finally {
