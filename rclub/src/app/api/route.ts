@@ -46,7 +46,7 @@ export async function GET() {
 }
 
 
-export async function action() {
+async function action() {
     revalidateTag('reservations')
 }
 
