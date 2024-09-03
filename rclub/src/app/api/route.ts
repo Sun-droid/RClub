@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server';
-import { revalidateTag } from 'next/cache'
+import {revalidateTag} from 'next/cache'
 
 
 export async function GET() {
@@ -11,7 +11,7 @@ export async function GET() {
                     headers: {
                         Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
                     },
-                    next:{ tags: ['reservations']}
+                    next: {tags: ['reservations']}
                 })
                 if (!response.ok) {
                     throw new Error('Failed to fetch data from KV');
@@ -29,6 +29,9 @@ export async function GET() {
 
 //        console.log("What await response.json() parse: ", await fetchDataFromKV())
         const bookings = await fetchDataFromKV();
+
+        if (bookings)
+            revalidateTag('reservations')
 //        console.log("Fetched bookings: ", bookings);
 
 //console.log('Fetched bookings:', bookings);
@@ -36,13 +39,11 @@ export async function GET() {
 //        return NextResponse.json(await fetchDataFromKV());
 //        return NextResponse.json(bookings);
 //                'Cache-Control': 'no-store  max-age=0',
-        revalidateTag('reservations')
         return NextResponse.json(bookings)
     } catch (error) {
         return console.error({error: getErrorMessage(error)}, {status: 500});
     }
 }
-
 
 
 //Working version
@@ -57,9 +58,6 @@ export async function GET() {
 //  revalidateTag('reservations')
 //  return NextResponse.json({ data });
 //}
-
-
-
 
 
 function getErrorMessage(error: unknown) {
