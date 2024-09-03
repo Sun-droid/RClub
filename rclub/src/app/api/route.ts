@@ -31,7 +31,7 @@ export async function GET() {
         const bookings = await fetchDataFromKV();
 
         if (bookings)
-            revalidateTag('reservations')
+            action()
 //        console.log("Fetched bookings: ", bookings);
 
 //console.log('Fetched bookings:', bookings);
@@ -43,6 +43,11 @@ export async function GET() {
     } catch (error) {
         return console.error({error: getErrorMessage(error)}, {status: 500});
     }
+}
+
+
+export async function action() {
+    revalidateTag('reservations')
 }
 
 
