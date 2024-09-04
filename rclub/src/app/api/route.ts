@@ -52,8 +52,11 @@ export async function GET(request: Request) {
   const data = await kv.get('reservations');
   // Return the data
   revalidateTag('reservations')
+  console.log("Data:  ", data) 
   return NextResponse.json({ data });
 }
+
+
 
 
 function getErrorMessage(error: unknown) {
