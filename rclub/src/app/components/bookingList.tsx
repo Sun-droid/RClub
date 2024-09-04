@@ -7,7 +7,7 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
     const [totalReservations, setTotalReservations] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [count, setCount] = useState(0);
-
+    //Logic commented for future work with GET version, see /api/route
     useEffect(() => {
         const fetchBookings = async () => {
             try {
@@ -25,13 +25,11 @@ const BookingList: React.FC<IBookedCount> = ({bookedCount}) => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log('reservations client', data)
+
                 const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
 
-//                console.log("response ", Object.entries(parsedData)[0][1])
-//                console.log("response ", parsedData)
+
                 const bookings = data.data || []
-                console.log("response ", bookings)
 //                setBookings(parsedData);
                 setBookings(bookings);
             } catch (err) {

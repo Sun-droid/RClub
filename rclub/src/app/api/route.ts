@@ -1,6 +1,6 @@
 import {NextResponse} from 'next/server';
 
-
+//Version with issues that needs fixing
 //export async function GET() {
 //    try {
 ////        const res = await fetch('https://...', { next: { revalidate: 60 } })
@@ -53,13 +53,9 @@ export async function GET(request: Request) {
   // Fetch data from Vercel KV
   const data =  await kv.get<IReservation[]>('reservations') || []
   // Return the data
-  console.log("Data:  ", Object(data).length)
-  console.log("Data has:  ", data.length)
   revalidateTag('reservations')
-  console.log("Data00:  ", Object(data).length)
   return NextResponse.json({ data });
 }
-
 
 
 
@@ -67,16 +63,3 @@ function getErrorMessage(error: unknown) {
     if (error instanceof Error) return error.message
     return String(error)
 }
-
-
-//export async function GET(request: Request) {
-//  // Fetch data from Vercel KV
-////  const data = await kv.get('reservations');
-//  const data =  await kv.get<IReservation[]>('reservations') || []
-//  // Return the data
-//  console.log("Data:  ", Object(data).length)
-//  console.log("Data has:  ", data.length)
-//  revalidateTag('reservations')
-//  console.log("Data00:  ", Object(data).length)
-//  return NextResponse.json({ data });
-//}

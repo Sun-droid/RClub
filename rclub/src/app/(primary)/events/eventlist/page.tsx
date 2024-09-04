@@ -9,6 +9,7 @@ import {auth} from '@/auth'
 import {kv} from '@vercel/kv';
 import importInitialData from '@/app/(primary)/database/utils/storage'
 let c = 0;
+//Logic commented for future work with local - online dev for database using both local Json files and Vercel's KV
 export default async function Page() {
     const session = await auth()
 
@@ -56,19 +57,6 @@ export default async function Page() {
         if (itemsTotal >= 1 && itemsToRender >= 1) {
 //            const ao = dataByAdmin.array_elem;
 //            const ao = events;
-
-            //Checking if/what exists in KV
-            //console.log("await kv.get('lastAddedEventId')", await kv.get('lastAddedEventId')); //null
-            //console.log("await kv.dbsize()", await kv.dbsize()); //null
-
-
-
-
-
-            //console.log("await kv.keys('')", await kv.keys('')); //null
-            //console.log("await eventKey", await kv.get('eventKey')); //null
-
-
 
 
             let v = "";

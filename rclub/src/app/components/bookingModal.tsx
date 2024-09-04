@@ -24,11 +24,9 @@ const BookingModal: React.FC<{ bookedCount: number, isVisible: boolean, onClose:
 //                const data = await response.json();
 //                setBookings(data);
                 const data = await response.json();
-                console.log('reservations client', data)
                 const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
 //                setBookings(parsedData);
                 const bookings = data.data || []
-//                console.log("response ", bookings)
                 setBookings(bookings);
             } catch (err) {
                 setError(getErrorMessage(err));
